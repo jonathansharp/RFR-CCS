@@ -1,9 +1,9 @@
-% Figure 2
-latlims = [latmin latmax];
-lonlims = [lonmin lonmax];
-ocncol  = [0.94 0.97 1.0];
+%% This script produces Figure S4b from Sharp et al. (in prep)
+% 
+
+ocncol  = [1 1 1];
+lndcol  = [1 1 1];
 fntsz   = 12;
-lndcol  = [0.2 0.2 0.2];
 
 figure;
 set(gcf,'units','normalized','outerposition',[0 0 1 0.7]);
@@ -24,25 +24,25 @@ for n = 1:12
     setm(gca,'fontsize',fntsz);
     set(gca,'fontsize',fntsz);
     land = shaperead('landareas', 'UseGeoCoords', true);
-    contourfm(SOCATv2020_grid.latitude(:,:,1),SOCATv2020_grid.longitude(:,:,1),...
-        mean(SOCATv2020_grid.Fco2_RF_ERA5(:,:,n:12:end),3,'omitnan'),...
-        -5:0.1:5,'LineStyle','none');
+    pcolorm(SOCATv2021_grid.lat,SOCATv2021_grid.lon,...
+        SOCATv2021_grid.pco2_RF_clim_2015(:,:,n)-LAR.pCO2(:,:,n),...
+        'LineStyle','none');
     geoshow(land, 'FaceColor',lndcol);
-    caxis([-5 5]);
+    caxis([-50 50]);
     colormap(cmocean('balance','pivot',0));
     
 end
 
-% Define axis
+%% Colorbar
 ax=axes('Position',[0.8 0.05 0.15 0.9],'Box','off');
 set(gca,'fontsize',20);
 c=colorbar;
-caxis([-5 5]);
-%colormap(cmocean('balance','pivot',0));
-c.Ticks = [-5 -4 -3 -2 -1 0 1 2 3 4 5];
-c.TickLabels = {'-5' '-4' '-3' '-2' '-1' '0' '1' '2' '3' '4' '5'};
-c.Label.String = 'FCO_{2} (mol m^{-2} yr^{-1})';
+caxis([-50 50]);
+colormap(cmocean('balance','pivot',0));
+c.Ticks = [-50 -25 0 25 50];
+c.TickLabels = {'-50' '-25' '0' '25' '50+'};
+c.Label.String = '\Delta{\itp}CO_{2(sw)} (\muatm)';
 c.Label.FontSize = 20;
 ax.Visible = 'off';
 
-exportgraphics(gcf,'/Users/sharp/Desktop/Figurexx.jpg');
+exportgraphics(gcf,'/Users/sharp/Desktop/FigureB3b.jpg');

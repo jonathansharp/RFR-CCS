@@ -1,9 +1,15 @@
-% Figure 2
+%% This script produces Figure 7 from Sharp et al. (in prep)
+% It gives monthly mean fields of pCO2 determine by a random forest
+% regression on SOCATv2021 observations in the northeast Pacific
+
 latlims = [latmin latmax];
 lonlims = [lonmin lonmax];
-ocncol  = [0.94 0.97 1.0];
-fntsz   = 12;
-lndcol  = [0.2 0.2 0.2];
+pos = [617, 599, 820, 820];
+ocncol = [1 1 1];
+lndcol = [1 1 1];
+titlesz = 20;
+labelsz = 22;
+fontsz = 12;
 
 figure;
 set(gcf,'units','normalized','outerposition',[0 0 1 0.7]);
@@ -19,30 +25,30 @@ for n = 1:12
     
     % Plot monthly RF-predicted pCO2
     worldmap(latlims,lonlims);
-    title(mnth{n});
     setm(gca,'ffacecolor',ocncol);
-    setm(gca,'fontsize',fntsz);
-    set(gca,'fontsize',fntsz);
+    setm(gca,'fontsize',fontsz);
+    set(gca,'fontsize',fontsz);
+    title(mnth{n},'fontsize',titlesz);
     land = shaperead('landareas', 'UseGeoCoords', true);
-    contourfm(SOCATv2020_grid.latitude(:,:,1),SOCATv2020_grid.longitude(:,:,1),...
-        mean(SOCATv2020_grid.pco2_RF(:,:,n:12:end),3,'omitnan'),...
+    contourfm(SOCATv2021_grid.latitude(:,:,1),SOCATv2021_grid.longitude(:,:,1),...
+        mean(SOCATv2021_grid.pco2_RF(:,:,n:12:end),3,'omitnan'),...
         300:10:440,'LineStyle','none');
-    geoshow(land, 'FaceColor',lndcol);
-    colormap(cmocean('haline'));
+    geoshow(land, 'FaceColor',lndcol,'linewidth',1);
     caxis([300 440]);
+    colormap(cmocean('haline',14));
     
 end
 
-% Define axis
+%% Colorbar
 ax=axes('Position',[0.8 0.05 0.15 0.9],'Box','off');
-set(gca,'fontsize',20);
+set(gca,'fontsize',labelsz);
 c=colorbar;
 caxis([300 440]);
 colormap(cmocean('haline',14));
 c.Ticks = [300 320 340 360 380 400 420 440];
 c.TickLabels = {'300' '320' '340' '360' '380' '400' '420' '440+'};
-c.Label.String = 'pCO_{2} (\muatm)';
-c.Label.FontSize = 20;
+c.Label.String = '{\itp}CO_{2(sw)} (\muatm)';
+c.Label.FontSize = labelsz;
 ax.Visible = 'off';
 
-exportgraphics(gcf,'/Users/sharp/Desktop/Figure2.jpg');
+exportgraphics(gcf,'/Users/sharp/Desktop/Figure7.jpg');
