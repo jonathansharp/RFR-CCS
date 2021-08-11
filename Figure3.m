@@ -11,7 +11,7 @@ br = axes('Position',[0.42 0.05 0.425 0.4],'Box','on');
 latlims = [latmin latmax];
 lonlims = [lonmin lonmax];
 ocncol = [1 1 1];
-lndcol = [1 1 1];
+lndcol = [0.5 0.5 0.5];
 fntsz = 18;
 
 %% Plot Landschutzer climatological pCO2 - RF-predicted climatological pCO2 (Xa)
@@ -22,9 +22,9 @@ set(gca,'fontsize',14);
 land = shaperead('landareas', 'UseGeoCoords', true);
 pcolorm(SOCATv2021_grid.latitude(:,:,1),SOCATv2021_grid.longitude(:,:,1),...
     mean(SOCATv2021_grid.pco2_RF_clim_2015,3,'omitnan')-mean(LAND.pCO2,3,'omitnan'));
-geoshow(land,'FaceColor',lndcol,'linewidth',1);
+geoshow(land,'FaceColor',lndcol,'linestyle','none');
 caxis([-50 50]);
-textm(50,245,'L20','fontsize',24,'color','k');
+textm(50,245,'L20','fontsize',24,'color','w','fontweight','bold');
 colormap(cmocean('balance','pivot',0));
 
 %% Plot Landschutzer amplitude - RF-predicted amplitude (Xb)
@@ -35,9 +35,9 @@ set(gca,'fontsize',14);
 land = shaperead('landareas', 'UseGeoCoords', true);
 pcolorm(SOCATv2021_grid.latitude(:,:,1),SOCATv2021_grid.longitude(:,:,1),...
     SOCATv2021_grid.pco2_RF_amp_2015-LAND.pCO2_amp);
-geoshow(land,'FaceColor',lndcol,'linewidth',1);
+geoshow(land,'FaceColor',lndcol,'linestyle','none');
 caxis([-50 50]);
-textm(50,245,'L20','fontsize',24,'color','k');
+textm(50,245,'L20','fontsize',24,'color','w','fontweight','bold');
 colormap(cmocean('balance','pivot',0));
 
 %% Plot Laruelle climatological pCO2 - RF-predicted climatological pCO2
@@ -48,9 +48,9 @@ set(gca,'fontsize',14);
 land = shaperead('landareas', 'UseGeoCoords', true);
 pcolorm(SOCATv2021_grid.latitude(:,:,1),SOCATv2021_grid.longitude(:,:,1),...
     mean(SOCATv2021_grid.pco2_RF_clim_2015,3,'omitnan')-mean(LAR.pCO2,3,'omitnan'));
-geoshow(land,'FaceColor',lndcol,'linewidth',1);
+geoshow(land,'FaceColor',lndcol,'linestyle','none');
 caxis([-50 50]);
-textm(50,245,'L17','fontsize',24,'color','k');
+textm(50,245,'L17','fontsize',24,'color','w','fontweight','bold');
 colormap(cmocean('balance','pivot',0));
 
 %% Plot Laruelle amplitude - RF-predicted amplitude
@@ -61,9 +61,9 @@ set(gca,'fontsize',14);
 land = shaperead('landareas', 'UseGeoCoords', true);
 pcolorm(SOCATv2021_grid.latitude(:,:,1),SOCATv2021_grid.longitude(:,:,1),...
     SOCATv2021_grid.pco2_RF_amp_2015-LAR.pCO2_amp);
-geoshow(land,'FaceColor',lndcol,'linewidth',1);
+geoshow(land,'FaceColor',lndcol,'linestyle','none');
 caxis([-50 50]);
-textm(50,245,'L17','fontsize',24,'color','k');
+textm(50,245,'L17','fontsize',24,'color','w','fontweight','bold');
 colormap(cmocean('balance','pivot',0));
 
 %% Colorbar
@@ -73,7 +73,7 @@ c=colorbar;
 caxis([-50 50]);
 colormap(cmocean('balance','pivot',0));
 c.Ticks = [-50 -25 0 25 50];
-c.TickLabels = {'-50' '-25' '0' '25' '50+'};
+c.TickLabels = {'-50' '-25' '0' '25' '50'};
 c.Label.String = '\Delta{\itp}CO_{2(sw)} (\muatm)';
 c.Label.FontSize = 24;
 ax.Visible = 'off';
