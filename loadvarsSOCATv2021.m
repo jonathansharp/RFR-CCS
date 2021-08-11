@@ -36,8 +36,7 @@ SOCATv2021_grid.mask_land  = landmask(SOCATv2021_grid.lat,SOCATv2021_grid.lon-36
 %% Obtain sea surface salinity from ECCO reanalysis
 % Import ECCO2 SSS
 disp('Obtaining ECCO2 sea surface salinity');
-path = '/Volumes/2TB Hard Drive/ECCO2_SSS/';
-load(strcat(path,'ECCO2_SSS_monthly_averaged_data.mat')); clear path
+load('Data/ECCO2_SSS_monthly_averaged_data.mat');
 % Format latitude and longitude
 ECCO_SSS.latitude = repmat(ECCO_SSS.lat',size(ECCO_SSS.sss_mon,1),1,size(ECCO_SSS.sss_mon,3));
 ECCO_SSS.longitude = repmat(ECCO_SSS.lon,1,size(ECCO_SSS.sss_mon,2),size(ECCO_SSS.sss_mon,3));
@@ -84,8 +83,7 @@ clear lonidx latidx idx interp lat_tmp lon_tmp sss_tmp t
 %% Obtain sea surface height from ECCO reanalysis
 % Import ECCO2 SSH
 disp('Obtaining ECCO2 sea surface height');
-path = '/Volumes/2TB Hard Drive/ECCO2_SSH/';
-load(strcat(path,'ECCO2_SSH_monthly_averaged_data.mat')); clear path
+load('Data/ECCO2_SSH_monthly_averaged_data.mat');
 % Format latitude and longitude
 ECCO_SSH.latitude = repmat(ECCO_SSH.lat',size(ECCO_SSH.ssh_mon,1),1,size(ECCO_SSH.ssh_mon,3));
 ECCO_SSH.longitude = repmat(ECCO_SSH.lon,1,size(ECCO_SSH.ssh_mon,2),size(ECCO_SSH.ssh_mon,3));
@@ -146,8 +144,7 @@ clear lonidx latidx idx interp lat_tmp lon_tmp ssh_tmp t
 %% Obtain sea surface temperature from OISSTv2
 % Import OISSTv2
 disp('Obtaining OISSTv2 sea surface temperature');
-path = '/Volumes/2TB Hard Drive/OISSTv2/';
-load(strcat(path,'OISSTv2_monthly_averaged_data.mat')); clear path
+load('Data/OISSTv2_monthly_averaged_data.mat');
 % Format latitude and longitude
 OISST.latitude = repmat(OISST.lat',size(OISST.sst_mon,1),1,size(OISST.sst_mon,3));
 OISST.longitude = repmat(OISST.lon,1,size(OISST.sst_mon,2),size(OISST.sst_mon,3));
@@ -187,8 +184,7 @@ clear path latidx lonidx t idx interp
 
 %% Obtain sea surface chlorophyll from satellite measurements
 disp('Obtaining SeaWiFS and MODIS surface chlorophyll');
-path = '/Volumes/2TB Hard Drive/SATELLITE_DATA/';
-load(strcat(path,'CHL.mat')); clear path
+load('Data/CHL.mat');
 CHL.latitude = repmat(CHL.lat',1,size(CHL.chl,2),size(CHL.chl,3));
 CHL.longitude = repmat(CHL.lon,size(CHL.chl,1),1,size(CHL.chl,3));
 % Cut down dataset to CCS limits
@@ -259,7 +255,7 @@ clear latidx lonidx t idx interp Chl Chlfit
 
 %% Obtain wind speed from ERA5 re-analysis
 disp('Obtaining ERA5 re-analysis winds');
-importERA5
+load('Data/ERA5.mat');
 ERA5.latitude = repmat(ERA5.lat',size(ERA5.speed,1),1,size(ERA5.speed,3));
 ERA5.longitude = repmat(ERA5.lon+360,1,size(ERA5.speed,2),size(ERA5.speed,3));
 % Match time frame of SOCAT data
@@ -289,7 +285,7 @@ clear t idx interp
 
 %% Obtain wind speed from NCEP re-analysis
 disp('Obtaining NCEP re-analysis winds');
-importNCEPWinds;
+load('Data/NCEPw.mat');
 % Cut down dataset to CCS limits
 lonidx = NCEPw.lon(:,1,1) >= lonmin & NCEPw.lon(:,1,1) <= lonmax;
 latidx = NCEPw.lat(1,:,1)' >= latmin & NCEPw.lat(1,:,1)' <= latmax;
@@ -325,7 +321,7 @@ clear t idx interp
 
 %% Obtain wind speed from CCMP re-analysis
 disp('Obtaining CCMP re-analysis winds');
-importCCMPWinds;
+load('Data/CCMP.mat');
 % Cut down dataset to CCS limits
 lonidx = CCMP.lon(:,1,1) >= lonmin & CCMP.lon(:,1,1) <= lonmax;
 latidx = CCMP.lat(1,:,1) >= latmin & CCMP.lat(1,:,1) <= latmax;
@@ -355,7 +351,7 @@ clear t idx interp
 
 %% Obtain bathymetry from ETOPO2
 disp('Obtaining ETOPO2 bathymetry');
-importETOPO2
+load('Data/ETOPO2.mat');
 ETOPO2.latitude = repmat(ETOPO2.lat',size(ETOPO2.bottomdepth,1),1);
 ETOPO2.longitude = repmat(ETOPO2.lon,1,size(ETOPO2.bottomdepth,2));
 % Cut down dataset to CCS limits
@@ -378,7 +374,7 @@ clear path latidx lonidx interp
 
 %% Obtain mixed layer depth from HYCOM model
 disp('Obtaining HYCOM mixed layer depth');
-importMLD
+load('Data/MLD.mat');
 MLD.latitude = repmat(MLD.lat',1,size(MLD.mld,2),size(MLD.mld,3));
 MLD.longitude = repmat(MLD.lon,size(MLD.mld,1),1,size(MLD.mld,3));
 % Cut down dataset to CCS limits
@@ -466,9 +462,8 @@ clear latidx lonidx t idx interp
 
 %% Obtain atmospheric pressure from NCEP
 disp('Obtaining NCEP atmospheric pressure');
-path = '/Volumes/2TB Hard Drive/SATELLITE_DATA/NCEP_PRES/'; % this can be changed as necessary
 % Read netcdf file
-NCEP = netcdfreader(strcat(path,'mslp.mon.mean.nc'));
+NCEP = netcdfreader('Data/mslp.mon.mean.nc');
 NCEP.latitude = repmat(NCEP.lat',size(NCEP.mslp,1),1);
 NCEP.longitude = repmat(NCEP.lon,1,size(NCEP.mslp,2));
 % Calculate date
@@ -499,7 +494,7 @@ clear t interp lonidx latidx
 %% Obtain atmospheric pCO2 from NOAA MBL product
 disp('Obtaining NOAA MBL atmospheric pCO2');
 % Open and scan file
-file = fopen('/Users/Sharp/Documents/DATA/MBL_1998_2019.txt');
+file = fopen('Data/MBL_1998_2019.txt');
 NOAA_MBL = textscan(file,'%f','Delimiter',',','CommentStyle','#');
 file = fclose(file);
 NOAA_MBL = reshape(cell2mat(NOAA_MBL),83,[]);
