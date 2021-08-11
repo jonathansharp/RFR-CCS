@@ -1,7 +1,7 @@
 disp('Importing SOCATv2021 observations');
 
 %% Load CCS SOCATv2021 data
-load('/Volumes/2TB Hard Drive/SOCAT/SOCATv2021_lat_15_60_lon_220_255.mat');
+load('Data/SOCATv2021_lat_15_60_lon_220_255.mat');
 % Assemble into structure
 SOCATv2021.all.expocode = Expocode;
 SOCATv2021.all.latitude = latitude;
