@@ -2,7 +2,7 @@
 % to Laruelle et al. 2017 into a 216 by 720 by 1440 matrix.
 % The script also converts the scaled data into uatm using a scaling factor
 
-ncid = netcdf.open('/Users/sharp/Documents/DATA/Laurelle CO2/Coastal_SOM_FFN_2017.nc','NOWRITE');
+ncid = netcdf.open('Data/Coastal_SOM_FFN_2017.nc','NOWRITE');
 
 Time=netcdf.getVar(ncid,0);
 Lat=netcdf.getVar(ncid,1);
