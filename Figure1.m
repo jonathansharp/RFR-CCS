@@ -4,7 +4,7 @@ latlims = [latmin latmax];
 lonlims = [lonmin lonmax];
 pos = [617, 599, 820, 820];
 ocncol = [1 1 1];
-lndcol = [1 1 1];
+lndcol = [0.5 0.5 0.5];
 fntsz = 18;
 
 % Plot annual mean gridded pCO2
@@ -16,7 +16,7 @@ set(gca,'fontsize',fntsz);
 land = shaperead('landareas', 'UseGeoCoords', true);
 pcolorm(SOCATv2021_grid.lat,SOCATv2021_grid.lon,...
     mean(SOCATv2021_grid.all.pco2_ave_weighted_clim,3,'omitnan'));
-geoshow(land, 'FaceColor',lndcol,'linewidth',1);
+geoshow(land, 'FaceColor',lndcol,'linestyle','none');
 c=colorbar;
 caxis([300 440]);
 colormap(cmocean('haline',14));
