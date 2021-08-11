@@ -1,10 +1,11 @@
 %% Import Landschutzer Climatology
-path = '/Users/Sharp/Documents/DATA/Landschutzer Merged Coastal CO2/MPI-ULB-SOM_FFN_clim.nc';
+path = 'Data/MPI-ULB-SOM_FFN_clim.nc';
 LAND.latitude = ncread(path,'lat');
 LAND.latitude_bounds = ncread(path,'lat_bnds');
 LAND.longitude = ncread(path,'lon');
 LAND.longitude_bounds = ncread(path,'lon_bnds');
 LAND.time = ncread(path,'time');
+LAND.pCO2 = ncread(path,'pco2');
 LAND.pCO2 = ncread(path,'pco2');
 % Change -999 to NaN in Landschutzer climatology
 LAND.pCO2 = double(LAND.pCO2);
