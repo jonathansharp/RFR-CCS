@@ -23,26 +23,26 @@ SOCATv2021_grid.all.pco2_dom_mean_detrend = ...
     squeeze(sum(sum(area_weights,1,'omitnan'),2,'omitnan'));
 
 %% Visualize domain mean over time
-figure; hold on;
-errorbar(SOCATv2021_grid.month_since_1998,...
-    SOCATv2021_grid.all.pco2_dom_mean,SOCATv2021_grid.all.pco2_dom_std,...
-    'LineStyle','none');
-scatter(SOCATv2021_grid.month_since_1998,...
-    SOCATv2021_grid.all.pco2_dom_mean,20,'k','filled');
-plot(SOCATv2021_grid.month_since_1998,yf,'k','LineWidth',2);
-xlabel('Month since Jan. 1 1998');
-ylabel('Mean Domain Surface pCO2'); hold off;
+% figure; hold on;
+% errorbar(SOCATv2021_grid.month_since_1998,...
+%     SOCATv2021_grid.all.pco2_dom_mean,SOCATv2021_grid.all.pco2_dom_std,...
+%     'LineStyle','none');
+% scatter(SOCATv2021_grid.month_since_1998,...
+%     SOCATv2021_grid.all.pco2_dom_mean,20,'k','filled');
+% plot(SOCATv2021_grid.month_since_1998,yf,'k','LineWidth',2);
+% xlabel('Month since Jan. 1 1998');
+% ylabel('Mean Domain Surface pCO2'); hold off;
 
 %% Visualize de-trended domain mean over time
-figure; hold on;
-errorbar(SOCATv2021_grid.month_since_1998,...
-    SOCATv2021_grid.all.pco2_dom_mean_detrend,SOCATv2021_grid.all.pco2_dom_std,...
-    'LineStyle','none');
-scatter(SOCATv2021_grid.month_since_1998,...
-    SOCATv2021_grid.all.pco2_dom_mean_detrend,20,'k','filled');
-plot(SOCATv2021_grid.month_since_1998,repmat(mean(yf,'omitnan'),max(size(yf)),1),'k','LineWidth',2);
-xlabel('Month since Jan. 1 1998');
-ylabel('Mean Domain Surface pCO2'); hold off;
+% figure; hold on;
+% errorbar(SOCATv2021_grid.month_since_1998,...
+%     SOCATv2021_grid.all.pco2_dom_mean_detrend,SOCATv2021_grid.all.pco2_dom_std,...
+%     'LineStyle','none');
+% scatter(SOCATv2021_grid.month_since_1998,...
+%     SOCATv2021_grid.all.pco2_dom_mean_detrend,20,'k','filled');
+% plot(SOCATv2021_grid.month_since_1998,repmat(mean(yf,'omitnan'),max(size(yf)),1),'k','LineWidth',2);
+% xlabel('Month since Jan. 1 1998');
+% ylabel('Mean Domain Surface pCO2'); hold off;
 
 %% Determine monthly means for one annual cycle
 % Pre-allocate
