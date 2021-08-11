@@ -6,7 +6,7 @@ latlims = [latmin latmax];
 lonlims = [lonmin lonmax];
 pos = [617, 599, 820, 820];
 ocncol = [1 1 1];
-lndcol = [1 1 1];
+lndcol = [0.5 0.5 0.5];
 titlesz = 20;
 labelsz = 22;
 fontsz = 12;
@@ -33,7 +33,7 @@ for n = 1:12
     contourfm(SOCATv2021_grid.latitude(:,:,1),SOCATv2021_grid.longitude(:,:,1),...
         mean(SOCATv2021_grid.pco2_RF(:,:,n:12:end),3,'omitnan'),...
         300:10:440,'LineStyle','none');
-    geoshow(land, 'FaceColor',lndcol,'linewidth',1);
+    geoshow(land, 'FaceColor',lndcol,'linestyle','none');
     caxis([300 440]);
     colormap(cmocean('haline',14));
     
@@ -46,7 +46,7 @@ c=colorbar;
 caxis([300 440]);
 colormap(cmocean('haline',14));
 c.Ticks = [300 320 340 360 380 400 420 440];
-c.TickLabels = {'300' '320' '340' '360' '380' '400' '420' '440+'};
+c.TickLabels = {'300' '320' '340' '360' '380' '400' '420' '440'};
 c.Label.String = '{\itp}CO_{2(sw)} (\muatm)';
 c.Label.FontSize = labelsz;
 ax.Visible = 'off';
