@@ -1,8 +1,8 @@
 %% This script produces Figure 4 from Sharp et al. (in prep)
 
 % Import SOCATv4 gridded files
-%importSOCATv4gridded
-%importSOCATv4gridded_coastal
+importSOCATv4gridded
+importSOCATv4gridded_coastal
 
 SOCATv4_gridded.distance_from_shore = ...
     dist2coast(SOCATv4_gridded.lat,SOCATv4_gridded.lon);
@@ -56,7 +56,7 @@ xlim([100 900]);
 ylabel('RFR-CCS-clim {\itp}CO_{2(sw)} (\muatm)','fontsize',labelsz);
 ylim([100 800]);
 box('on');
-colormap(cmocean('balance','pivot',2));
+colormap(cmocean('haline'));
 caxis([1 3]);
 xticks([200 400 600 800]);
 yticks([200 400 600 800]);
@@ -81,7 +81,7 @@ xlim([100 900]);
 ylabel('L20 {\itp}CO_{2(sw)} (\muatm)','fontsize',labelsz);
 ylim([100 800]);
 box('on');
-colormap(cmocean('balance','pivot',2));
+colormap(cmocean('haline'));
 caxis([1 3]);
 xticks([200 400 600 800]);
 yticks([200 400 600 800]);
@@ -105,7 +105,7 @@ xlim([100 900]);
 ylabel('RFR-CCS {\itp}CO_{2(sw)} (\muatm)','fontsize',labelsz);
 ylim([100 800]);
 box('on');
-colormap(cmocean('balance','pivot',2));
+colormap(cmocean('haline'));
 caxis([1 3]);
 xticks([200 400 600 800]);
 yticks([200 400 600 800]);
@@ -127,7 +127,7 @@ xlim([100 900]);
 ylabel('L17 {\itp}CO_{2(sw)} (\muatm)','fontsize',labelsz);
 ylim([100 800]);
 box('on');
-colormap(cmocean('balance','pivot',2));
+colormap(cmocean('haline'));
 caxis([1 3]);
 xticks([200 400 600 800]);
 yticks([200 400 600 800]);
@@ -142,7 +142,7 @@ ax=axes('Position',[0.06 0.05 0.9 0.9],'Box','off');
 set(gca,'fontsize',fontsz);
 c=colorbar;
 caxis([1 3]);
-colormap(cmocean('balance','pivot',2));
+colormap(cmocean('haline'));
 c.Label.String = 'log_{10}(km from shore)';
 c.Label.FontSize = labelsz;
 ax.Visible = 'off';
