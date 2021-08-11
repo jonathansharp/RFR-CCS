@@ -41,7 +41,7 @@ headers = {'Dist' 'SSS' 'SSH' 'SST' 'CHL' 'MLD' 'Wind' 'aCO2' 'Year' 'Month1' 'M
 % headers = {'Dist' 'SSS' 'SSH' 'SST' 'CHL' 'MLD' 'Wind' 'aCO2' 'Year' 'Month1' 'Month2' 'Bathy'};
 
 % Import mooring data
-load('/Users/sharp/Documents/DATA/MOORINGS/mooring_data_processed.mat');
+load('Data/mooring_data_processed.mat');
 Y_moor = [];
 idxlon = [];
 idxlat = [];
