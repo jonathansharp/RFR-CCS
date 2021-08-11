@@ -6,7 +6,7 @@ latlims = [latmin latmax];
 lonlims = [lonmin lonmax];
 pos = [617, 599, 820, 820];
 ocncol  = [1 1 1];
-lndcol  = [1 1 1];
+lndcol  = [0.5 0.5 0.5];
 titlesz = 28;
 labelsz = 22;
 fontsz = 18;
@@ -27,7 +27,7 @@ land = shaperead('landareas', 'UseGeoCoords', true);
 contourfm(SOCATv2021_grid.latitude(:,:,1),SOCATv2021_grid.longitude(:,:,1),...
     mean(SOCATv2021_grid.pco2_RF_clim,3,'omitnan'),...
     300:10:440,'LineStyle','none');
-geoshow(land, 'FaceColor',lndcol,'linewidth',1);
+geoshow(land, 'FaceColor',lndcol,'linestyle','none');
 moornames={'CCE1' 'CCE2' 'NH10' 'WA' 'LaPush'};
 moornames2={'CCE1' 'CCE2' 'NH10' 'Cape Elizabeth' 'Châ bá'};
 for n=1:numel(moornames)
@@ -40,29 +40,29 @@ for n=1:numel(moornames)
         min(min(abs(SOCATv2021_grid.longitude(:,1,1)-nanmean(MOORING.(moornames{n}).lon)))));
     scatterm(SOCATv2021_grid.latitude(lonidx,latidx,1),SOCATv2021_grid.longitude(lonidx,latidx,1),...
         400,mean(MOORING.(moornames{n}).pCO2SW,'omitnan'),'filled',...
-        'o','MarkerEdgeColor','k','LineWidth',2);
+        'o','MarkerEdgeColor','w','LineWidth',2);
     if n==5 % Cha ba
     textm(SOCATv2021_grid.latitude(lonidx,latidx,1)+1,SOCATv2021_grid.longitude(lonidx,latidx,1)+3,...
-        moornames2{n},'Color','k','FontWeight','bold','fontsize',labelsz);
+        moornames2{n},'Color','w','FontWeight','bold','fontsize',labelsz);
     elseif n==3 % NH10
     textm(SOCATv2021_grid.latitude(lonidx,latidx,1),SOCATv2021_grid.longitude(lonidx,latidx,1)+2,...
-        moornames2{n},'Color','k','FontWeight','bold','fontsize',labelsz);
+        moornames2{n},'Color','w','FontWeight','bold','fontsize',labelsz);
     elseif n==1 % CCE1
     textm(SOCATv2021_grid.latitude(lonidx,latidx,1),SOCATv2021_grid.longitude(lonidx,latidx,1)+5.5,...
-        moornames2{n},'Color','k','FontWeight','bold','fontsize',labelsz);
+        moornames2{n},'Color','w','FontWeight','bold','fontsize',labelsz);
     elseif n==2 % CCE2
     textm(SOCATv2021_grid.latitude(lonidx,latidx,1)+0.5,SOCATv2021_grid.longitude(lonidx,latidx,1)+1.5,...
-        moornames2{n},'Color','k','FontWeight','bold','fontsize',labelsz);
+        moornames2{n},'Color','w','FontWeight','bold','fontsize',labelsz);
     else
         textm(SOCATv2021_grid.latitude(lonidx,latidx,1),SOCATv2021_grid.longitude(lonidx,latidx,1)+3,...
-        moornames2{n},'Color','k','FontWeight','bold','fontsize',labelsz);
+        moornames2{n},'Color','w','FontWeight','bold','fontsize',labelsz);
     end
 end
 c=colorbar;
 %cptcmap('GMT_ocean','flip',true);
 colormap(l,cmocean('haline',14));
 caxis([300 440]);
-c.TickLabels = {'300' '320' '340' '360' '380' '400' '420' '440+'};
+c.TickLabels = {'300' '320' '340' '360' '380' '400' '420' '440'};
 c.Label.String = '{\itp}CO_{2(sw)} (\muatm)';
 c.Label.FontSize = labelsz;
 
@@ -76,7 +76,7 @@ land = shaperead('landareas', 'UseGeoCoords', true);
 contourfm(SOCATv2021_grid.latitude(:,:,1),SOCATv2021_grid.longitude(:,:,1),...
     log10(SOCATv2021_grid.pco2_RF_amp),...
     1:0.1:2.5,'LineStyle','none');
-geoshow(land, 'FaceColor',lndcol,'linewidth',1);
+geoshow(land, 'FaceColor',lndcol,'linestyle','none');
 for n=1:numel(moornames)
     % Find closest point in RF climatology to lat-lon
     latidx = ...
@@ -90,19 +90,19 @@ for n=1:numel(moornames)
         'MarkerEdgeColor','k','LineWidth',2);
     if n==5 % Cha ba
     textm(SOCATv2021_grid.latitude(lonidx,latidx,1)+1,SOCATv2021_grid.longitude(lonidx,latidx,1)+3,...
-        moornames2{n},'Color','k','FontWeight','bold','fontsize',labelsz);
+        moornames2{n},'Color','w','FontWeight','bold','fontsize',labelsz);
     elseif n==3 % NH10
     textm(SOCATv2021_grid.latitude(lonidx,latidx,1),SOCATv2021_grid.longitude(lonidx,latidx,1)+2,...
-        moornames2{n},'Color','k','FontWeight','bold','fontsize',labelsz);
+        moornames2{n},'Color','w','FontWeight','bold','fontsize',labelsz);
     elseif n==1 % CCE1
     textm(SOCATv2021_grid.latitude(lonidx,latidx,1),SOCATv2021_grid.longitude(lonidx,latidx,1)+5.5,...
-        moornames2{n},'Color','k','FontWeight','bold','fontsize',labelsz);
+        moornames2{n},'Color','w','FontWeight','bold','fontsize',labelsz);
     elseif n==2 % CCE2
     textm(SOCATv2021_grid.latitude(lonidx,latidx,1)+0.5,SOCATv2021_grid.longitude(lonidx,latidx,1)+1.5,...
-        moornames2{n},'Color','k','FontWeight','bold','fontsize',labelsz);
+        moornames2{n},'Color','w','FontWeight','bold','fontsize',labelsz);
     else
         textm(SOCATv2021_grid.latitude(lonidx,latidx,1),SOCATv2021_grid.longitude(lonidx,latidx,1)+3,...
-        moornames2{n},'Color','k','FontWeight','bold','fontsize',labelsz);
+        moornames2{n},'Color','w','FontWeight','bold','fontsize',labelsz);
     end
 end
 c=colorbar;
