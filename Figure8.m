@@ -38,7 +38,7 @@ for n = 1:12
     MOORING.CCE2.delta_pCO2_rnd(t,n) = choice;
 end
 MOORING.CCE2.Fco2_ERA5_rnd(t,:) = ...
-    squeeze(SOCATv2021_grid.kw_ERA5_hourly(lonidx,latidx,((yr-1998)*12+1:(yr-1998)*12+12)))' .* ...
+    squeeze(SOCATv2021_grid.kw_ERA5(lonidx,latidx,((yr-1998)*12+1:(yr-1998)*12+12)))' .* ...
     squeeze(SOCATv2021_grid.k0_ERA5(lonidx,latidx,((yr-1998)*12+1:(yr-1998)*12+12)))' .* ...
     (MOORING.CCE2.delta_pCO2_rnd(t,:).*1e-6);  % mmol C/(m^2 * h)
 end
@@ -168,5 +168,5 @@ set(ax2,'fontsize',fontsz);
 ylabel('Cumulative annual flux (mmol C m^{-2} yr^{-1})','fontsize',fontsz);
 ylim([-800 0]);
 
-exportgraphics(gcf,strcat('/Users/sharp/Desktop/Flux_CCE2.jpg'));
+exportgraphics(gcf,strcat('/Users/sharp/Desktop/Flux_CCE2.png'));
 
