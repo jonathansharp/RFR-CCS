@@ -1,4 +1,4 @@
-%% This script produces Figure B4 from Sharp et al. (in prep)
+%% This script produces Figure B5 from Sharp et al. (in prep)
 
 %% Determine correlation between temperature and pCO2
 for a=1:140
@@ -126,4 +126,4 @@ c.Label.FontSize = 24;
 ax.Visible = 'off';
 
 %% Export figure
-exportgraphics(gcf,'/Users/sharp/Desktop/FigureB5.png');
+exportgraphics(gcf,'Figures/FigureB5.png');

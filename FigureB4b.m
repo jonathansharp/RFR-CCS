@@ -1,5 +1,4 @@
-%% This script produces Figure S4b from Sharp et al. (in prep)
-% 
+%% This script produces Figure B3b from Sharp et al. (in prep)
 
 ocncol  = [1 1 1];
 lndcol = [0.5 0.5 0.5];
@@ -45,4 +44,4 @@ c.Label.String = '\Delta{\itp}CO_{2(sw)} (\muatm)';
 c.Label.FontSize = 20;
 ax.Visible = 'off';
 
-exportgraphics(gcf,'/Users/sharp/Desktop/FigureB4b.png');
+exportgraphics(gcf,'Figures/FigureB4b.png');
