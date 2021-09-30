@@ -78,3 +78,7 @@ mooring_omission_2.m
 moorings.m                               
 oobErrRF.m                               
 uncertainty.m
+*.jpg
+*.png
+*.nc
+*.mat
