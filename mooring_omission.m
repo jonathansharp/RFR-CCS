@@ -1,7 +1,6 @@
 % Mooring omission analysis (Fig 3)
 
-%load('/Users/sharp/Documents/DATA/MOORINGS/mooring_data_processed.mat');
-%importLAR; % Imports Laruelle et al. (2017) coastal pCO2 product
+load('Data/mooring_data_processed.mat');
 MOORING.SEAK = MOORING.Southeast;
 MOORING.CB06 = MOORING.CB_06;
 
@@ -61,10 +60,10 @@ for k=1:numel(omitmoors2)
                        'RFR-CCS-Eval'...
                        'L17'},'location','northwest');
     % legend([p3 p1 p2],{'Mooring Observations'...
-    %                    'Sharp, RFR (all data)'...
-    %                    'Sharp, RFR (mooring data withheld)'});
+    %                    'RFR-CCS (all data)'...
+    %                    'RFR-CCS (mooring data withheld)'});
     % legend([p3 p1],{'Mooring Observations'...
-    %                    'Sharp, RFR (all data)'});
+    %                    'RFR-CCS (all data)'});
     % legend([p3],{'Mooring Observations'});
     % ylim([200 550]);
     ylabel('pCO_{2} (\muatm)');
@@ -118,7 +117,7 @@ for k=1:numel(omitmoors2)
         MOORING.(omitmoors2{k}).pCO2SW_mon_mean(~isnan(MOORING.(omitmoors2{k}).pCO2SW_mon_mean)' & ~isnan(laruelle))').^2)./...
         sum(~isnan(MOORING.(omitmoors2{k}).pCO2SW_mon_mean)' & ~isnan(laruelle)));
 
-    exportgraphics(gcf,['/Users/sharp/Desktop/mor_' omitmoors2{k} '.png']);
+    exportgraphics(gcf,['Figures/mor_' omitmoors2{k} '.png']);
     
 end
 
