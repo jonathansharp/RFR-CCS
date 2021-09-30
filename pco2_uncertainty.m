@@ -40,16 +40,19 @@ u_grid_open  = mean(SOCATv2021_grid.all.pco2_grid_uncert(Open_idx),'omitnan')
 % random forest regression model and gridded values
 
 % Compare predicted values to test values (coastal)
-u_map_coast = std(SOCATv2021_grid.pco2_RF(Coastal_idx) - ...
-    SOCATv2021_grid.all.pco2_ave_weighted(Coastal_idx),[],'omitnan')
+% u_map_coast = std(SOCATv2021_grid.pco2_RF(Coastal_idx) - ...
+%     SOCATv2021_grid.all.pco2_ave_weighted(Coastal_idx),[],'omitnan')
 
 % Compare predicted values to test values (open)
-u_map_open = std(SOCATv2021_grid.pco2_RF(~Coastal_idx) - ...
-    SOCATv2021_grid.all.pco2_ave_weighted(~Coastal_idx),[],'omitnan')
+% u_map_open = std(SOCATv2021_grid.pco2_RF(~Coastal_idx) - ...
+%     SOCATv2021_grid.all.pco2_ave_weighted(~Coastal_idx),[],'omitnan')
+
+u_map_coast = 35.27 % determined as average RMSE from independent tests #1 and #2 for coastal ocean 
+u_map_open = 4.39 % determined as average RMSE from independent tests #1 and #2 for open ocean
 
 %% Combined uncertainty in pCO2
 
-U_tot_coast = sqrt(u_meas.^2 + u_grid.^2 + u_map_coast.^2)
-U_tot_open  = sqrt(u_meas.^2 + u_grid.^2 + u_map_open.^2)
+U_tot_coast = sqrt(u_meas.^2 + u_grid_coast.^2 + u_map_coast.^2)
+U_tot_open  = sqrt(u_meas.^2 + u_grid_open.^2 + u_map_open.^2)
 
 
