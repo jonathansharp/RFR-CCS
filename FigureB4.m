@@ -41,11 +41,11 @@ br = axes('Position',[0.42 0.05 0.425 0.4],'Box','on');
 latlims = [latmin latmax];
 lonlims = [lonmin lonmax];
 ocncol = [1 1 1];
-lndcol = [1 1 1];
+lndcol = [0.5 0.5 0.5];
 fntsz = 18;
 
 %% Plot correlation between temperature and pCO2 (Xa)
-axes(tl); title('Temp. vs. {\itp}CO_{2(sw)}'); worldmap(latlims,lonlims);
+axes(tl); title('SST vs. {\itp}CO_{2(sw)}'); worldmap(latlims,lonlims);
 setm(gca,'ffacecolor',ocncol);
 setm(gca,'fontsize',14);
 set(gca,'fontsize',14);
@@ -126,4 +126,4 @@ c.Label.FontSize = 24;
 ax.Visible = 'off';
 
 %% Export figure
-exportgraphics(gcf,'/Users/sharp/Desktop/Figure4B.jpg');
+exportgraphics(gcf,'/Users/sharp/Desktop/FigureB5.png');
