@@ -1,13 +1,25 @@
-% % This script runs a number of functions to create a multi-year monthly
-% % surface pCO2 climatology in a region that includes the California
-% % Current. Collectively, the script (1) imports SOCATv2021 observations of
-% % surface pCO2, (2) grids those observations to a monthly 0.25x0.25 degree
-% % grid, (3) pulls in satellite and model data (SST, SSS, CHL, wind speed,
-% % etc.) to co-locate with pCO2 grid cells, and (4) uses those co-located
-% % variables to interpolate surface surface pCO2 to a continuous 0.25x0.25
-% % degree map from 1998 to 2019.
+% This script runs a number of functions to create a multi-year monthly
+% surface pCO2 climatology in a region that includes the California
+% Current. Collectively, the script (1) imports SOCATv2021 observations of
+% surface pCO2, (2) grids those observations to a monthly 0.25x0.25 degree
+% grid, (3) pulls in satellite and model data (SST, SSS, CHL, wind speed,
+% etc.) to co-locate with pCO2 grid cells, and (4) uses those co-located
+% variables to interpolate surface surface pCO2 to a continuous 0.25x0.25
+% degree map from 1998 to 2019.
 
-%% For Test #1: split training/test data randomly
+%% Optimize model
+% rng_seed = randi([1 100],1);
+% split = 0;          % split data randomly
+% grid_val = 0;       % do not predict pCO2 on grid
+% importSOCATv2021;   % import and split data into training/test
+% gridSOCATv2021;     % grid training/test data
+% detrendSOCATv2021;  % detrend gridded observations
+% loadvarsSOCATv2021; % load predictor variables
+% interpolateSOCATv2021_RF_optimize;
+%                     % interpolate pCO2 by random forest using training data
+% clear
+
+%% For Test #1: split training/test data randomly (random 20%)
 rng_seed = randi([1 100],1);
 split = 1;          % split data randomly
 numsplits = 10;     % perform 10 splits
@@ -18,9 +30,10 @@ detrendSOCATv2021;  % detrend gridded observations
 loadvarsSOCATv2021; % load predictor variables
 interpolateSOCATv2021_RF_validate;
                     % interpolate pCO2 by random forest using training data
+
 clear
 
-%% For Test #3: split by withholding years
+%% For Test #3: split by withholding years (every fifth)
 rng_seed = randi([1 100],1);
 split = 3;          % split data by withholding years
 startyear = [1995,1996,1997,1998,1999];
@@ -34,7 +47,7 @@ interpolateSOCATv2021_RF_validate;
                     % interpolate pCO2 by random forest using training data
 clear
 
-%% For Test #2: split by withholding moorings
+%% For Test #2: split by withholding moorings (one by one)
 rng_seed = randi([1 100],1);
 split = 2;          % split data by withholding moorings
 grid_val = 1;       % predict pCO2 on grid
@@ -47,28 +60,26 @@ interpolateSOCATv2021_RF_validate;
 grid_all = 1;       % predict pCO2 on grid
 interpolateSOCATv2021_RF_all;
                     % interpolate pCO2 by random forest using training data
-clear SOCATv2021
 
 %% For all observations
-split = 0;          % do not split data
-importSOCATv2021;   % import data
-gridSOCATv2021;     % grid SOCAT data
-detrendSOCATv2021;  % detrend gridded observations
-loadvarsSOCATv2021; % load predictor variables
-grid_all = 1;       % predict pCO2 on grid
-interpolateSOCATv2021_RF_all;
-                    % interpolate pCO2 by random forest using all data
+% split = 0;          % do not split data
+% importSOCATv2021;   % import data
+% gridSOCATv2021;     % grid SOCAT data
+% detrendSOCATv2021;  % detrend gridded observations
+% loadvarsSOCATv2021; % load predictor variables
+% grid_all = 1;       % predict pCO2 on grid
+% interpolateSOCATv2021_RF_all;
+%                     % interpolate pCO2 by random forest using all data
 
 %% Import other datasets
 importLAND;              % Landschutzer et al. (2020)
 importLAR;               % Laruelle et al. (2017)
 
 %% Ancillary functions for calculations
-importMoorings           % imports mooring data
-calculateCO2flux         % Determine CO2 flux
-calculateCO2flux         % Determine CO2 flux
-pCO2_uncertainty         % determine uncertainty in pCO2
-calculateCO2flux_CCE2    % calculate CO2 flux at the CCE2 mooring location
+importMoorings            % imports mooring data
+pco2_uncertainty          % determine uncertainty in pCO2
+calculateCO2flux          % calculate CO2 flux
+%calculateCO2flux_moorings % calculate CO2 flux at the CCE2 mooring location
 
 %% save final product as .mat and NetCDF
 save_files
@@ -81,6 +92,9 @@ Figure4;
 Figure5;
 Figure6;
 Figure7;
+Fay_CO2_flux % calculate CO2 flux using Fay et al
+Figure8;
+Figure9;
 FigureA1;
 FigureA2;
 FigureA3;
