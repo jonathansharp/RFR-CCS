@@ -23,7 +23,7 @@ land = shaperead('landareas', 'UseGeoCoords', true);
 pcolorm(SOCATv2021_grid.latitude(:,:,1),SOCATv2021_grid.longitude(:,:,1),...
     mean(SOCATv2021_grid.pco2_RF_clim_2015,3,'omitnan')-mean(LAND.pCO2,3,'omitnan'));
 geoshow(land,'FaceColor',lndcol,'linestyle','none');
-caxis([-50 50]);
+caxis([-100 100]);
 textm(50,245,'L20','fontsize',24,'color','w','fontweight','bold');
 colormap(cmocean('balance','pivot',0));
 
@@ -36,7 +36,7 @@ land = shaperead('landareas', 'UseGeoCoords', true);
 pcolorm(SOCATv2021_grid.latitude(:,:,1),SOCATv2021_grid.longitude(:,:,1),...
     SOCATv2021_grid.pco2_RF_amp_2015-LAND.pCO2_amp);
 geoshow(land,'FaceColor',lndcol,'linestyle','none');
-caxis([-50 50]);
+caxis([-100 100]);
 textm(50,245,'L20','fontsize',24,'color','w','fontweight','bold');
 colormap(cmocean('balance','pivot',0));
 
@@ -49,7 +49,7 @@ land = shaperead('landareas', 'UseGeoCoords', true);
 pcolorm(SOCATv2021_grid.latitude(:,:,1),SOCATv2021_grid.longitude(:,:,1),...
     mean(SOCATv2021_grid.pco2_RF_clim_2015,3,'omitnan')-mean(LAR.pCO2,3,'omitnan'));
 geoshow(land,'FaceColor',lndcol,'linestyle','none');
-caxis([-50 50]);
+caxis([-100 100]);
 textm(50,245,'L17','fontsize',24,'color','w','fontweight','bold');
 colormap(cmocean('balance','pivot',0));
 
@@ -62,7 +62,7 @@ land = shaperead('landareas', 'UseGeoCoords', true);
 pcolorm(SOCATv2021_grid.latitude(:,:,1),SOCATv2021_grid.longitude(:,:,1),...
     SOCATv2021_grid.pco2_RF_amp_2015-LAR.pCO2_amp);
 geoshow(land,'FaceColor',lndcol,'linestyle','none');
-caxis([-50 50]);
+caxis([-100 100]);
 textm(50,245,'L17','fontsize',24,'color','w','fontweight','bold');
 colormap(cmocean('balance','pivot',0));
 
@@ -70,10 +70,10 @@ colormap(cmocean('balance','pivot',0));
 ax=axes('Position',[0 0.05 0.9 0.9],'Box','off');
 set(gca,'fontsize',24);
 c=colorbar;
-caxis([-50 50]);
+caxis([-100 100]);
 colormap(cmocean('balance','pivot',0));
-c.Ticks = [-50 -25 0 25 50];
-c.TickLabels = {'-50' '-25' '0' '25' '50'};
+c.Ticks = [-100 -50 0 50 100];
+c.TickLabels = {'–100' '–50' '0' '50' '100'};
 c.Label.String = '\Delta{\itp}CO_{2(sw)} (\muatm)';
 c.Label.FontSize = 24;
 ax.Visible = 'off';
@@ -89,7 +89,7 @@ annotation('textbox',[0.44, 0.98, 0.4, 0],'string','Seasonal amplitude differenc
     'fontsize',24,'EdgeColor','none')
 
 %% Export figure
-exportgraphics(gcf,'/Users/sharp/Desktop/Figure3.jpg');
+exportgraphics(gcf,'/Users/sharp/Desktop/Figure3.png');
 
 %% Area-weighted differences between RFR-NEP vs. L17 and L20
 % area weights
