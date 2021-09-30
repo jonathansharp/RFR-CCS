@@ -2,23 +2,23 @@
 
 latlims = [latmin latmax];
 lonlims = [lonmin lonmax];
-ocncol  = [0.94 0.97 1.0];
-lndcol  = [1 1 1];
+ocncol  = [1 1 1];
+lndcol = [0.5 0.5 0.5];
 titlesz = 20;
 labelsz = 22;
 fontsz = 12;
 
 figure;
-set(gcf,'units','normalized','outerposition',[0 0 1 0.7]);
+set(gcf,'units','normalized','outerposition',[0 0 0.675 1]);
 
 mnth = {'JAN' 'FEB' 'MAR' 'APR' 'MAY' 'JUN' 'JUL' 'AUG' 'SEP' 'OCT' 'NOV' 'DEC'};
-x_ax = [0.02 0.17 0.32 0.47 0.62 0.77 0.02 0.17 0.32 0.47 0.62 0.77];
-y_ax = [0.55 0.55 0.55 0.55 0.55 0.55 0.05 0.05 0.05 0.05 0.05 0.05];
+x_ax = [0.02 0.23 0.43 0.63 0.02 0.23 0.43 0.63 0.02 0.23 0.43 0.63];
+y_ax = [0.71 0.71 0.71 0.71 0.38 0.38 0.38 0.38 0.05 0.05 0.05 0.05];
 
 for n = 1:12
 
     % Define axis
-    axes('Position',[x_ax(n) y_ax(n) 0.15 0.4],'Box','off');
+    axes('Position',[x_ax(n) y_ax(n) 0.25 0.25],'Box','off');
     
     % Plot monthly RF-predicted pCO2
     worldmap(latlims,lonlims);
@@ -50,4 +50,4 @@ c.Label.String = 'Number of Years Represented';
 c.Label.FontSize = labelsz;
 ax.Visible = 'off';
 
-exportgraphics(gcf,'/Users/sharp/Desktop/FigureB1.jpg');
+exportgraphics(gcf,'/Users/sharp/Desktop/FigureB1.png');
