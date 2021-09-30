@@ -1,3 +1,5 @@
+%% This script produces Figure 9 from Sharp et al. (in prep)
+
 %% Calculate CO2 Flux for the CCE2 mooring
 load('Data/CCE2_winds_hourly.mat');
 
@@ -168,5 +170,5 @@ set(ax2,'fontsize',fontsz);
 ylabel('Cumulative annual flux (mmol C m^{-2} yr^{-1})','fontsize',fontsz);
 ylim([-800 0]);
 
-exportgraphics(gcf,strcat('/Users/sharp/Desktop/Flux_CCE2.png'));
+exportgraphics(gcf,strcat('Figures/Flux_CCE2.png'));
 

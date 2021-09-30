@@ -24,4 +24,4 @@ c.Ticks = [0 0.5 1 1.5 2];
 c.TickLabels = {'0.0' '0.5' '1.0' '1.5' '2.0+'};
 c.Label.String = ['Chlorophyll-a (mg m^{-2})'];
 c.Label.FontSize = fntsz;
-exportgraphics(gcf,'/Users/sharp/Desktop/FigureA2.png');
+exportgraphics(gcf,'Figures/FigureA2.png');

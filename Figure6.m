@@ -118,5 +118,5 @@ annotation('textbox',[.03 .85 .1 .1],'String','a','EdgeColor','none','fontsize',
 annotation('textbox',[.53 .85 .1 .1],'String','b','EdgeColor','none','fontsize',32)
     
 %% Export figure
-exportgraphics(gcf,'/Users/sharp/Desktop/Figure6.png');
+exportgraphics(gcf,'Figures/Figure6.png');
 

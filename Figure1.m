@@ -27,4 +27,4 @@ colormap(cmocean('haline',14));
 c.TickLabels = {'300' '320' '340' '360' '380' '400' '420' '440'};
 c.Label.String = '{\itp}CO_{2(sw)} (\muatm)';
 c.Label.FontSize = fntsz;
-exportgraphics(gcf,'/Users/sharp/Desktop/Figure1.png');
+exportgraphics(gcf,'Figures/Figure1.png');

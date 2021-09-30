@@ -1,4 +1,4 @@
-%% This script produces Figure 5 from Sharp et al. (in prep)
+%% This script produces Figure 8 from Sharp et al. (in prep)
 
 % Initialize figure
 latlims = [latmin latmax];
@@ -91,4 +91,4 @@ annotation('textbox',[0.57, 0.95, 0, 0],'string','b','fontsize',24)
 annotation('textbox',[0.03, 0.55, 0, 0],'string','c','fontsize',24)
 annotation('textbox',[0.48, 0.55, 0, 0],'string','d','fontsize',24)
 
-exportgraphics(gcf,'/Users/sharp/Desktop/Figure8.png');
+exportgraphics(gcf,'Figures/Figure8.png');

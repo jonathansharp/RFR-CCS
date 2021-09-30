@@ -62,5 +62,5 @@ xlim([min(date(~isnan(MOORING.CCE2.pCO2SW_mon_mean))) ...
 ylim([300 550]);
 
 %% Export figure
-exportgraphics(gcf,'/Users/sharp/Desktop/Figure2.png');
+exportgraphics(gcf,'Figures/Figure2.png');
 

@@ -89,7 +89,7 @@ annotation('textbox',[0.44, 0.98, 0.4, 0],'string','Seasonal amplitude differenc
     'fontsize',24,'EdgeColor','none')
 
 %% Export figure
-exportgraphics(gcf,'/Users/sharp/Desktop/Figure3.png');
+exportgraphics(gcf,'Figures/Figure3.png');
 
 %% Area-weighted differences between RFR-NEP vs. L17 and L20
 % area weights

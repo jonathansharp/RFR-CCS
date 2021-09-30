@@ -22,4 +22,4 @@ caxis([0 10]);
 colormap(parula(10));
 c.Label.String = ['Wind Speed at 10m (m s^{-1})'];
 c.Label.FontSize = fntsz;
-exportgraphics(gcf,'/Users/sharp/Desktop/FigureA4.png');
+exportgraphics(gcf,'Figures/FigureA4.png');

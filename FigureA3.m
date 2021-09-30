@@ -81,6 +81,4 @@ xticks(2*12:5*12:22*12);
 xticklabels({'2000' '2005' '2010' '2015' '2020'});
 
 % Save figure
-exportgraphics(gcf,'/Users/sharp/Desktop/FigureA3.png');
-
-%clear supp_fig
+exportgraphics(gcf,'Figures/FigureA3.png');

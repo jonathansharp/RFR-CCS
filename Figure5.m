@@ -131,4 +131,4 @@ set(hl,'Position', [0.65 0.075 0.225 0.2],'fontsize',28);
 br.Visible = 'off';
 
 %% Export figure
-exportgraphics(gcf,['/Users/sharp/Desktop/Figure5.png']);
+exportgraphics(gcf,['Figures/Figure5.png']);

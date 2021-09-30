@@ -23,4 +23,4 @@ colormap(parula(10));
 %c.TickLabels = {'5'};
 c.Label.String = ['SST (' char(176) 'C)'];
 c.Label.FontSize = fntsz;
-exportgraphics(gcf,'/Users/sharp/Desktop/FigureA1.png');
+exportgraphics(gcf,'Figures/FigureA1.png');

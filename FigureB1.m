@@ -1,3 +1,5 @@
+%% This script produces Figure B1 from Sharp et al. (in prep)
+
 % Plots SOCAT observations by month
 
 latlims = [latmin latmax];
@@ -50,4 +52,4 @@ c.Label.String = 'Number of Years Represented';
 c.Label.FontSize = labelsz;
 ax.Visible = 'off';
 
-exportgraphics(gcf,'/Users/sharp/Desktop/FigureB1.png');
+exportgraphics(gcf,'Figures/FigureB1.png');

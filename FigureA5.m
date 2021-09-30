@@ -1,6 +1,4 @@
-%% This script produces Figure 7 from Sharp et al. (in prep)
-% It gives monthly mean fields of pCO2 determine by a random forest
-% regression on SOCATv2021 observations in the northeast Pacific
+%% This script produces Figure A5 from Sharp et al. (in prep)
 
 latlims = [latmin latmax];
 lonlims = [lonmin lonmax];
@@ -51,4 +49,4 @@ c.Label.String = 'SST (degC)';
 c.Label.FontSize = labelsz;
 ax.Visible = 'off';
 
-exportgraphics(gcf,'/Users/sharp/Desktop/FigureA5.jpg');
+exportgraphics(gcf,'Figures/FigureA5.jpg');
