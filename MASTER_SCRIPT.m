@@ -62,24 +62,24 @@ interpolateSOCATv2021_RF_all;
                     % interpolate pCO2 by random forest using training data
 
 %% For all observations
-% split = 0;          % do not split data
-% importSOCATv2021;   % import data
-% gridSOCATv2021;     % grid SOCAT data
-% detrendSOCATv2021;  % detrend gridded observations
-% loadvarsSOCATv2021; % load predictor variables
-% grid_all = 1;       % predict pCO2 on grid
-% interpolateSOCATv2021_RF_all;
-%                     % interpolate pCO2 by random forest using all data
+split = 0;          % do not split data
+importSOCATv2021;   % import data
+gridSOCATv2021;     % grid SOCAT data
+detrendSOCATv2021;  % detrend gridded observations
+loadvarsSOCATv2021; % load predictor variables
+grid_all = 1;       % predict pCO2 on grid
+interpolateSOCATv2021_RF_all;
+                    % interpolate pCO2 by random forest using all data
 
 %% Import other datasets
 importLAND;              % Landschutzer et al. (2020)
 importLAR;               % Laruelle et al. (2017)
 
 %% Ancillary functions for calculations
-importMoorings            % imports mooring data
 pco2_uncertainty          % determine uncertainty in pCO2
 calculateCO2flux          % calculate CO2 flux
-%calculateCO2flux_moorings % calculate CO2 flux at the CCE2 mooring location
+mooring_omission
+moorings
 
 %% save final product as .mat and NetCDF
 save_files
