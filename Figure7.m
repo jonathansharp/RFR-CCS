@@ -51,4 +51,4 @@ c.Label.String = '{\itp}CO_{2(sw)} (\muatm)';
 c.Label.FontSize = labelsz;
 ax.Visible = 'off';
 
-exportgraphics(gcf,'/Users/sharp/Desktop/Figure7.jpg');
+exportgraphics(gcf,'/Users/sharp/Desktop/Figure7.png');
