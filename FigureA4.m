@@ -4,7 +4,7 @@ latlims = [latmin latmax];
 lonlims = [lonmin lonmax];
 pos = [617, 599, 820, 820];
 ocncol = [1 1 1];
-lndcol = [1 1 1];
+lndcol = [0.5 0.5 0.5];
 fntsz = 18;
 
 % Plot annual mean gridded temp
@@ -22,4 +22,4 @@ caxis([0 10]);
 colormap(parula(10));
 c.Label.String = ['Wind Speed at 10m (m s^{-1})'];
 c.Label.FontSize = fntsz;
-exportgraphics(gcf,'/Users/sharp/Desktop/FigureA4.jpg');
+exportgraphics(gcf,'/Users/sharp/Desktop/FigureA4.png');
