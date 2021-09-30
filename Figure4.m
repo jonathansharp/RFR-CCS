@@ -152,4 +152,4 @@ annotation('textbox',[0.86, 0.95, 0, 0],'string','b','fontsize',24)
 annotation('textbox',[0.4, 0.45, 0, 0],'string','c','fontsize',24)
 annotation('textbox',[0.86, 0.45, 0, 0],'string','d','fontsize',24)
 
-exportgraphics(gcf,'/Users/sharp/Desktop/Figure4.jpg');
+exportgraphics(gcf,'/Users/sharp/Desktop/Figure4.png');
