@@ -4,7 +4,7 @@ latlims = [latmin latmax];
 lonlims = [lonmin lonmax];
 pos = [617, 599, 820, 820];
 ocncol = [1 1 1];
-lndcol = [1 1 1];
+lndcol = [0.5 0.5 0.5];
 fntsz = 18;
 
 % Plot annual mean gridded temp
@@ -23,4 +23,4 @@ colormap(parula(10));
 %c.TickLabels = {'5'};
 c.Label.String = ['SST (' char(176) 'C)'];
 c.Label.FontSize = fntsz;
-exportgraphics(gcf,'/Users/sharp/Desktop/FigureA1.jpg');
+exportgraphics(gcf,'/Users/sharp/Desktop/FigureA1.png');
