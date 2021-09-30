@@ -4,7 +4,7 @@ latlims = [latmin latmax];
 lonlims = [lonmin lonmax];
 pos = [617, 599, 820, 820];
 ocncol = [1 1 1];
-lndcol = [1 1 1];
+lndcol = [0.5 0.5 0.5];
 fntsz = 18;
 
 % Plot annual mean gridded temp
@@ -24,4 +24,4 @@ c.Ticks = [0 0.5 1 1.5 2];
 c.TickLabels = {'0.0' '0.5' '1.0' '1.5' '2.0+'};
 c.Label.String = ['Chlorophyll-a (mg m^{-2})'];
 c.Label.FontSize = fntsz;
-exportgraphics(gcf,'/Users/sharp/Desktop/FigureA2.jpg');
+exportgraphics(gcf,'/Users/sharp/Desktop/FigureA2.png');
