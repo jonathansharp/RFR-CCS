@@ -102,10 +102,6 @@ SOCATv2021.all.month_since_1998 = (SOCATv2021.all.year-1998).*12 + SOCATv2021.al
 if split==1
 disp('Splitting into training (80%) and test (20%) data randomly');
 for h = 1:numsplits
-    if h == 1
-        rng(rng_seed);
-    end
-    rng(randi([1 100]));
     plat = unique(SOCATv2021.all.expocode);
     numplats = numel(plat);
     pertest = 0.2;
@@ -125,7 +121,7 @@ clear n plat numplats pertest test_plats test_idx vars tempvar
 
 %% Remove observations based on certain moorings
 elseif split==2
-disp('Splitting into training and test data by removing specific moorings (WA and CCE1)');
+disp('Splitting into training and test data by removing all moorings');
 omitmoors = {'WA' 'CCE1' 'CCE2' 'SEAK' 'NH10' 'CB06' 'LaPush' 'KwakshuaChannel' 'Dabob' 'Exp'};
 plat = unique(SOCATv2021.all.expocode);
 moor_idx = ~cellfun(@isempty,regexp(plat,'3164')); % This determines which expocodes are moorings
