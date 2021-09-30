@@ -2,7 +2,7 @@
 % 
 
 ocncol  = [1 1 1];
-lndcol  = [1 1 1];
+lndcol = [0.5 0.5 0.5];
 fntsz   = 12;
 
 figure;
@@ -45,4 +45,4 @@ c.Label.String = '\Delta{\itp}CO_{2(sw)} (\muatm)';
 c.Label.FontSize = 20;
 ax.Visible = 'off';
 
-exportgraphics(gcf,'/Users/sharp/Desktop/FigureB3a.jpg');
+exportgraphics(gcf,'/Users/sharp/Desktop/FigureB4a.png');
