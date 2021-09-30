@@ -118,7 +118,7 @@ for k=1:numel(omitmoors2)
         MOORING.(omitmoors2{k}).pCO2SW_mon_mean(~isnan(MOORING.(omitmoors2{k}).pCO2SW_mon_mean)' & ~isnan(laruelle))').^2)./...
         sum(~isnan(MOORING.(omitmoors2{k}).pCO2SW_mon_mean)' & ~isnan(laruelle)));
 
-    exportgraphics(gcf,['/Users/sharp/Desktop/mor_' omitmoors2{k} '.jpg']);
+    exportgraphics(gcf,['/Users/sharp/Desktop/mor_' omitmoors2{k} '.png']);
     
 end
 
