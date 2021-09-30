@@ -30,8 +30,12 @@ SOCATv2021_grid.distance_from_shore = ...
 SOCATv2021_grid.distance_from_shore = ...
     repmat(SOCATv2021_grid.distance_from_shore,1,1,max(size(SOCATv2021_grid.month_since_1998)));
 
-%% Create indices for land, coastal product, and open-ocean product
+%% Create indices for coastal and open-ocean
 SOCATv2021_grid.mask_land  = landmask(SOCATv2021_grid.lat,SOCATv2021_grid.lon-360);
+SOCATv2021_grid.coast = SOCATv2021_grid.distance_from_shore(:,:,1) < 100 & ...
+    SOCATv2021_grid.percent_sea > 0;
+SOCATv2021_grid.open = SOCATv2021_grid.distance_from_shore(:,:,1) >= 100 & ...
+    SOCATv2021_grid.percent_sea > 0;
 
 %% Obtain sea surface salinity from ECCO reanalysis
 % Import ECCO2 SSS
@@ -78,7 +82,7 @@ SOCATv2021_grid.SSS(SOCATv2021_grid.latitude > 40 & ...
 % figure; pcolor(ECCO_SSS.longitude(:,:,1),ECCO_SSS.latitude(:,:,1),ECCO_SSS.sss_mon(:,:,1)); colorbar; caxis([30 36]);
 % figure; pcolor(SOCATv2021_grid.lon,SOCATv2021_grid.lat,SOCATv2021_grid.SSS(:,:,1)); colorbar; caxis([30 36]);
 
-clear lonidx latidx idx interp lat_tmp lon_tmp sss_tmp t
+clear lonidx latidx idx interp lat_tmp lon_tmp sss_tmp t ECCO_SSS
 
 %% Obtain sea surface height from ECCO reanalysis
 % Import ECCO2 SSH
@@ -139,7 +143,7 @@ SOCATv2021_grid.SSH(SOCATv2021_grid.latitude > 40 & ...
 % figure; pcolor(ECCO_SSH.longitude(:,:,1),ECCO_SSH.latitude(:,:,1),ECCO_SSH.ssh_mon(:,:,1)); colorbar;
 % figure; pcolor(SOCATv2021_grid.longitude(:,:,1),SOCATv2021_grid.latitude(:,:,1),SOCATv2021_grid.SSH(:,:,1)); colorbar;
 
-clear lonidx latidx idx interp lat_tmp lon_tmp ssh_tmp t
+clear lonidx latidx idx interp lat_tmp lon_tmp ssh sshfit ssh_tmp t g h ECCO_SSH
 
 %% Obtain sea surface temperature from OISSTv2
 % Import OISSTv2
@@ -180,7 +184,7 @@ SOCATv2021_grid.SST(SOCATv2021_grid.latitude > 40 & ...
 
 % figure; pcolor(SOCATv2021_grid.lon,SOCATv2021_grid.lat,SOCATv2021_grid.SST(:,:,1)); colorbar; caxis([5 30]);
 
-clear path latidx lonidx t idx interp
+clear path latidx lonidx t idx interp sst_tmp lon_tmp lat_tmp OISST
 
 %% Obtain sea surface chlorophyll from satellite measurements
 disp('Obtaining SeaWiFS and MODIS surface chlorophyll');
@@ -251,7 +255,7 @@ end
 %plot(1:276,squeeze(SOCATv2021_grid.CHL2(10,150,:)));
 %plot(1:276,squeeze(SOCATv2021_grid.CHL(10,150,:)));
 
-clear latidx lonidx t idx interp Chl Chlfit
+clear latidx lonidx t g h m idx interp Chl chl_clim Chlfit CHL
 
 %% Obtain wind speed from ERA5 re-analysis
 disp('Obtaining ERA5 re-analysis winds');
@@ -281,7 +285,7 @@ end
 
 % figure; pcolor(SOCATv2021_grid.longitude(:,:,1),SOCATv2021_grid.latitude(:,:,1),SOCATv2021_grid.wind_speed(:,:,1)); colorbar; caxis([0 12]);
 
-clear t idx interp
+clear t idx interp ERA5
 
 %% Obtain wind speed from NCEP re-analysis
 disp('Obtaining NCEP re-analysis winds');
@@ -317,7 +321,7 @@ end
 
 % figure; pcolor(SOCATv2021_grid.longitude(:,:,1),SOCATv2021_grid.latitude(:,:,1),SOCATv2021_grid.wind_speed(:,:,1)); colorbar; caxis([0 12]);
 
-clear t idx interp
+clear t idx latidx lonidx interp NCEPw
 
 %% Obtain wind speed from CCMP re-analysis
 disp('Obtaining CCMP re-analysis winds');
@@ -347,7 +351,7 @@ end
 
 % figure; pcolor(SOCATv2021_grid.longitude(:,:,1),SOCATv2021_grid.latitude(:,:,1),SOCATv2021_grid.wind_speed(:,:,1)); colorbar; caxis([0 12]);
 
-clear t idx interp
+clear t idx latidx lonidx interp CCMP
 
 %% Obtain bathymetry from ETOPO2
 disp('Obtaining ETOPO2 bathymetry');
@@ -370,7 +374,7 @@ SOCATv2021_grid.bottomdepth = repmat(SOCATv2021_grid.bottomdepth,1,1,max(size(SO
 
 % figure; pcolor(SOCATv2021_grid.longitude(:,:,1),SOCATv2021_grid.latitude(:,:,1),SOCATv2021_grid.bottomdepth(:,:,1)); colorbar;
 
-clear path latidx lonidx interp
+clear path latidx lonidx interp ETOPO2
 
 %% Obtain mixed layer depth from HYCOM model
 disp('Obtaining HYCOM mixed layer depth');
@@ -417,7 +421,7 @@ SOCATv2021_grid.MLD(SOCATv2021_grid.latitude > 40 & ...
 
 % figure; pcolor(SOCATv2021_grid.longitude(:,:,1),SOCATv2021_grid.latitude(:,:,1),SOCATv2021_grid.MLD(:,:,1)); colorbar; caxis([0 150]);
 
-clear latidx lonidx t idx interp
+clear latidx lonidx t idx lat_tmp lon_tmp mld_tmp interp MLD
 
 % %% Obtain atmospheric pCO2 from Jena CarboScope
 % disp('Obtaining Jena CarboScope atmospheric pCO2');
@@ -489,14 +493,14 @@ end
 % Convert pascals to atmospheres
 SOCATv2021_grid.mslp = double(SOCATv2021_grid.mslp)./101325;
 
-clear t interp lonidx latidx
+clear t interp lonidx latidx index NCEP
 
 %% Obtain atmospheric pCO2 from NOAA MBL product
 disp('Obtaining NOAA MBL atmospheric pCO2');
 % Open and scan file
-file = fopen('Data/MBL_1998_2019.txt');
+file = fopen('Data/MBL_1998_2020.txt');
 NOAA_MBL = textscan(file,'%f','Delimiter',',','CommentStyle','#');
-file = fclose(file);
+fclose(file);
 NOAA_MBL = reshape(cell2mat(NOAA_MBL),83,[]);
 % Process data within file
 MBL.year = repmat(NOAA_MBL(1,:),(size(NOAA_MBL,1)-1)./2,1);
@@ -527,19 +531,19 @@ for m = 1:size(MBL.CO2_mon,2)
     SOCATv2021_grid.xCO2_atm(:,m) = interp1(MBL.lat,MBL.CO2_mon(:,m),SOCATv2021_grid.lat(1,:)');
     SOCATv2021_grid.xCO2_err_atm(:,m) = interp1(MBL.lat,MBL.err_mon(:,m),SOCATv2021_grid.lat(1,:)');
 end
-% Extend to 2020 using linear fit for each month
-SOCATv2021_grid.xCO2_atm = [SOCATv2021_grid.xCO2_atm nan(180,12)];
-SOCATv2021_grid.xCO2_err_atm = [SOCATv2021_grid.xCO2_err_atm nan(180,12)];
-for m = 1:12 % for each month
-    for l = 1:size(SOCATv2021_grid.xCO2_atm,1) % for each latitude
-        fit = polyfit(SOCATv2021_grid.month_since_1998(m:12:264),...
-            squeeze(SOCATv2021_grid.xCO2_atm(l,m:12:264)),1);
-        SOCATv2021_grid.xCO2_atm(l,m+264) = fit(1)*(m+264) + fit(2);
-        fit = polyfit(SOCATv2021_grid.month_since_1998(m:12:264),...
-            squeeze(SOCATv2021_grid.xCO2_err_atm(l,m:12:264)),1);
-        SOCATv2021_grid.xCO2_err_atm(l,m+264) = fit(1)*(m+264) + fit(2);
-    end
-end
+% % Extend to 2020 using linear fit for each month
+% SOCATv2021_grid.xCO2_atm = [SOCATv2021_grid.xCO2_atm nan(180,12)];
+% SOCATv2021_grid.xCO2_err_atm = [SOCATv2021_grid.xCO2_err_atm nan(180,12)];
+% for m = 1:12 % for each month
+%     for l = 1:size(SOCATv2021_grid.xCO2_atm,1) % for each latitude
+%         fit = polyfit(SOCATv2021_grid.month_since_1998(m:12:264),...
+%             squeeze(SOCATv2021_grid.xCO2_atm(l,m:12:264)),1);
+%         SOCATv2021_grid.xCO2_atm(l,m+264) = fit(1)*(m+264) + fit(2);
+%         fit = polyfit(SOCATv2021_grid.month_since_1998(m:12:264),...
+%             squeeze(SOCATv2021_grid.xCO2_err_atm(l,m:12:264)),1);
+%         SOCATv2021_grid.xCO2_err_atm(l,m+264) = fit(1)*(m+264) + fit(2);
+%     end
+% end
 % Replicate across longitudes
 SOCATv2021_grid.xCO2_atm = repmat(permute(SOCATv2021_grid.xCO2_atm,[3 1 2]),size(SOCATv2021_grid.lon,1),1,1);
 SOCATv2021_grid.xCO2_err_atm = repmat(permute(SOCATv2021_grid.xCO2_err_atm,[3 1 2]),size(SOCATv2021_grid.lon,1),1,1);
@@ -548,8 +552,4 @@ SOCATv2021_grid.vapor_pressure = vpress(SOCATv2021_grid.SSS,SOCATv2021_grid.SST)
 SOCATv2021_grid.pCO2_atm = SOCATv2021_grid.xCO2_atm.*...
     (SOCATv2021_grid.mslp-SOCATv2021_grid.vapor_pressure);
 
-clear file l t z MBL* latsin 
-
-%% Clean up
-
-clear CarboScope CHL ECCO_SSS ECCO_SSH ERA5 ETOPO2 MLD OISST NCEP NCEPw
+clear ans file l t z m MBL* latsin NOAA_MBL
