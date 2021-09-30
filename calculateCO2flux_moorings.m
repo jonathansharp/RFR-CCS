@@ -1,5 +1,5 @@
 %% Calculate CO2 Flux for individual moorings
-load('/Volumes/2TB Hard Drive/SATELLITE_DATA/ERA5/ERA5_3hourly.mat');
+%load('/Volumes/2TB Hard Drive/SATELLITE_DATA/ERA5/ERA5_3hourly.mat');
 
 moornames  = {'WA' 'CCE1' 'CCE2' 'NH10' 'LaPush'};
 moornames2 = {'Cape Elizabeth' 'CCE1' 'CCE2' 'NH10' 'Chá bâ'};
@@ -7,7 +7,7 @@ moornames2 = {'Cape Elizabeth' 'CCE1' 'CCE2' 'NH10' 'Chá bâ'};
 meanflux = nan(length(moornames),4);
 cumflux = nan(length(moornames),4);
 
-% for k = 3 % CCE2 only 1:numel(moornames)
+for k = 3 % CCE2 only 1:numel(moornames)
     
     yr = 2015;
     
@@ -19,11 +19,12 @@ cumflux = nan(length(moornames),4);
     [h,m,s] = hms(MOORING.(moornames{k}).time(dateidx));
     date_h = datenum([MOORING.(moornames{k}).date(dateidx,1:3),h,m,s]);   
     
-    % Calculate delta pCO2
+    % Calculate delta pCO2 for moorings
     MOORING.(moornames{k}).delta_pCO2 = ...
         MOORING.(moornames{k}).pCO2SW(dateidx) - MOORING.(moornames{k}).pCO2Air(dateidx); % uatm
 
-    % randomly select one delta pco2 value per month
+    % randomly select one delta pco2 value per month from moring
+    % observations
     MOORING.(moornames{k}).delta_pCO2_rnd = nan(12,1);
     rng(2); %sets random observations that are selected
     for n = 1:12
@@ -38,15 +39,15 @@ cumflux = nan(length(moornames),4);
     
     % Match to wind speed  
     lonidx = ...
-        find(abs(ERA5h.lon-mean(MOORING.(moornames{k}).lon(dateidx),1,'omitnan')) == ...
-        min(min(abs(ERA5h.lon-mean(MOORING.(moornames{k}).lon(dateidx),1,'omitnan')))));
+        find(abs(ERA5h.lon-mean(MOORING.(moornames{k}).lon,1,'omitnan')) == ...
+        min(min(abs(ERA5h.lon-mean(MOORING.(moornames{k}).lon,1,'omitnan')))));
     latidx = ...
-        find(abs(ERA5h.lat-mean(MOORING.(moornames{k}).lat(dateidx),1,'omitnan')) == ...
-        min(min(abs(ERA5h.lat-mean(MOORING.(moornames{k}).lat(dateidx),1,'omitnan')))));
+        find(abs(ERA5h.lat-mean(MOORING.(moornames{k}).lat,1,'omitnan')) == ...
+        min(min(abs(ERA5h.lat-mean(MOORING.(moornames{k}).lat,1,'omitnan')))));
     [~,datidx] = ...
         min(abs(ERA5h.date - datenum(MOORING.(moornames{k}).date(dateidx))'),[],1);
     MOORING.(moornames{k}).U = squeeze(ERA5h.speed(lonidx,latidx,datidx));
-CCE2_winds_hourly = squeeze(ERA5h.speed(lonidx,latidx,:));
+Date_winds_hourly = squeeze(ERA5h.date);
     % Calculate gas transfer velocity for mooring with kgas function
     MOORING.(moornames{k}).sch = CO2flux_Schmidt_W14(MOORING.(moornames{k}).sst(dateidx),'CO2');
     MOORING.(moornames{k}).kw_ERA5 = kgas(MOORING.(moornames{k}).U,MOORING.(moornames{k}).sch,'Ho06'); % m/s
@@ -148,7 +149,7 @@ CCE2_winds_hourly = squeeze(ERA5h.speed(lonidx,latidx,:));
         sum(squeeze(SOCATv2021_grid.Fco2_RF_ERA5_hourly(lonidx,latidx,(yr-1998)*12+1:(yr-1998)*12+12))).*(3.*2918/12) % mol C / m^2 yr
 
 
-% end
+end
 
 %% Plot bar graph of amplitudes
 % figure; hold on; box on;
