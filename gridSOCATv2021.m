@@ -104,3 +104,28 @@ SOCATv2021_grid.area_km2 = ...
 (((SOCATv2021_grid.lon + 0.125) - ...
     (SOCATv2021_grid.lon - 0.125)) .* ...
     111.320.*cosd(SOCATv2021_grid.lat)); % longitude distance
+
+%% Determine sea fraction of each grid cell
+load('Data/ETOPO2.mat');
+% limit to region corresponding to RFR-CCS
+lonidx = ETOPO2.lon >= lonmin-360 & ETOPO2.lon <= lonmax-360;
+latidx = ETOPO2.lat >= latmin & ETOPO2.lat <= latmax;
+ETOPO2.bottomdepth = ETOPO2.bottomdepth(lonidx,latidx);
+ETOPO2.lon = ETOPO2.lon(lonidx);
+ETOPO2.lat = ETOPO2.lat(latidx);
+% define points as land (0) or sea (1)
+ETOPO2.sea = ETOPO2.bottomdepth > 0;
+% determine percentage sea in each RFR-CCS grid cell
+SOCATv2021_grid.percent_sea = nan(size(SOCATv2021_grid.lat));
+for a = 1:size(SOCATv2021_grid.lon,1)
+    for b = 1:size(SOCATv2021_grid.lat,2)
+        lonidx = find(ETOPO2.lon >= (SOCATv2021_grid.lon(a,1)-360)-0.125 & ...
+                  ETOPO2.lon < (SOCATv2021_grid.lon(a,1)-360)+0.125);
+        latidx = find(ETOPO2.lat >= SOCATv2021_grid.lat(1,b)-0.125 & ...
+                  ETOPO2.lat < SOCATv2021_grid.lat(1,b)+0.125);
+        SOCATv2021_grid.percent_sea(a,b) = ...
+            sum(sum(ETOPO2.sea(lonidx,latidx)))./...
+            (size(ETOPO2.sea(lonidx,latidx),1)*size(ETOPO2.sea(lonidx,latidx),2));
+    end
+end
+clear ETOPO2 lonidx latidx a b
