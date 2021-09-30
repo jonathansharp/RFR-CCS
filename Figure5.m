@@ -124,11 +124,11 @@ end
 
 %% Legends for figures:
 br = axes('Position',[0.6 0.05 0.375 0.25],'Box','off');
-hl=legend(br,[mo land lar rf],{'Mooring' 'L20' 'L17' 'RFR-NEP'});
+hl=legend(br,[mo land lar rf],{'Mooring' 'L20' 'L17' 'RFR-CCS-clim'});
 set(hl,'Position', [0.65 0.075 0.225 0.2],'fontsize',28);
 %l = findobj(l,'Type','Line');
 %set(l,'MarkerSize',10);
 br.Visible = 'off';
 
 %% Export figure
-exportgraphics(gcf,['/Users/sharp/Desktop/Figure5.jpg']);
+exportgraphics(gcf,['/Users/sharp/Desktop/Figure5.png']);
