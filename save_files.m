@@ -13,6 +13,7 @@ nccreate([fname '.nc'],'latitude','Dimensions',{'latitude'},'Datatype','single')
 nccreate([fname '.nc'],'time','Dimensions',{'time'},'Datatype','single');
 nccreate([fname '.nc'],'sst','Dimensions',{'longitude','latitude','time'},'Datatype','single');
 nccreate([fname '.nc'],'sss','Dimensions',{'longitude','latitude','time'},'Datatype','single');
+nccreate([fname '.nc'],'pres','Dimensions',{'longitude','latitude','time'},'Datatype','single');
 % nccreate([fname '.nc'],'Fco2','Dimensions',{'longitude','latitude','time'},'Datatype','single');
 
 % Write variables
@@ -22,6 +23,7 @@ ncwrite([fname '.nc'],'latitude',SOCATv2021_grid.lat(1,:,1)');
 ncwrite([fname '.nc'],'time',SOCATv2021_grid.month_since_1998-0.5);
 ncwrite([fname '.nc'],'sst',SOCATv2021_grid.SST);
 ncwrite([fname '.nc'],'sss',SOCATv2021_grid.SSS);
+ncwrite([fname '.nc'],'pres',SOCATv2021_grid.mslp);
 % ncwrite([fname '.nc'],'Fco2',SOCATv2021_grid.Fco2_RF_ERA5);
 
 % Write attributes
@@ -40,6 +42,10 @@ ncwriteatt([fname '.nc'],'sss','long_name','sea surface salinity');
 ncwriteatt([fname '.nc'],'sss','units','N/A');
 ncwriteatt([fname '.nc'],'sss','Missing_Value',NaN);
 ncwriteatt([fname '.nc'],'sss','Source','ECCO2');
+ncwriteatt([fname '.nc'],'pres','long_name','sea level pressure');
+ncwriteatt([fname '.nc'],'pres','units','atm');
+ncwriteatt([fname '.nc'],'pres','Missing_Value',NaN);
+ncwriteatt([fname '.nc'],'pres','Source','NCEP');
 % ncwriteatt([fname '.nc'],'Fco2','long_name','Sea to air CO2 flux');
 % ncwriteatt([fname '.nc'],'Fco2','units','mol C m^-2 month^-1');
 % ncwriteatt([fname '.nc'],'Fco2','Missing_Value',NaN);
@@ -63,9 +69,11 @@ sst = single(SOCATv2021_grid.SST);
 sst_units = 'degC';
 sss = single(SOCATv2021_grid.SSS);
 sss_units = 'N/A';
+pres = single(SOCATv2021_grid.mslp);
+pres_units = 'atm';
 Fco2 = SOCATv2021_grid.Fco2_RF_ERA5;
 Fco2_units = 'mol_C_per_m2_per_month';
 save([fname '.mat'],'pco2','pco2_units','longitude','latitude','time',...
-    'time_units','sst','sst_units','sss','sss_units');
+    'time_units','sst','sst_units','sss','sss_units','pres','pres_units');
 
 %matfile('RFR-CCS_v1.mat')
