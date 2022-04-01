@@ -68,17 +68,28 @@ for a = 1:size(lon,1)
                 temperature = SOCATv2021.(dataset{n}).temperature(idx);
                 salinity = SOCATv2021.(dataset{n}).salinity(idx);
                 pco22 = nan(numel(cruises),1);
+                std22 = nan(numel(cruises),1);
                 temperature2 = nan(numel(cruises),1);
                 salinity2 = nan(numel(cruises),1);
                 for k=1:numel(cruises)
                     cruiseidx = strcmp(cruiselist,cruises(k));
                     pco22(k) = mean(pco2(cruiseidx));
+                    if length(pco2(cruiseidx)) > 1
+                        std22(k) = std(pco2(cruiseidx));
+                    else
+                        std22(k) = NaN;
+                    end
                     temperature2(k) = mean(temperature(cruiseidx));
                     salinity2(k) = mean(salinity(cruiseidx));
                 end
                 SOCATv2021_grid.(dataset{n}).pco2_ave_weighted(a,b,c)  = mean(pco22);
-                SOCATv2021_grid.(dataset{n}).pco2_std_weighted(a,b,c)  = std(pco22);
-                SOCATv2021_grid.(dataset{n}).pco2_grid_uncert(a,b,c)  = std(pco22);
+                SOCATv2021_grid.(dataset{n}).pco2_std_weighted(a,b,c)  = mean(std22);
+                if any(startsWith(cruises,'3164'))
+                    % keyboard
+                else
+                    SOCATv2021_grid.(dataset{n}).pco2_grid_uncert(a,b,c)  = ...
+                        SOCATv2021_grid.(dataset{n}).pco2_std_unwtd(a,b,c);
+                end
                 SOCATv2021_grid.(dataset{n}).sst_ave_weighted(a,b,c)  = mean(temperature2);
                 SOCATv2021_grid.(dataset{n}).sst_std_weighted(a,b,c)  = std(temperature2);
                 SOCATv2021_grid.(dataset{n}).salinity_ave_weighted(a,b,c)  = mean(salinity2);
