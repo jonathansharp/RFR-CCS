@@ -25,6 +25,7 @@ SOCATv2021.all.per_5uatm = 1 - SOCATv2021.all.per_2uatm;
 
 % Average uncertainty:
 u_meas = 2*SOCATv2021.all.per_2uatm + 5*SOCATv2021.all.per_5uatm
+n_meas = sum(~isnan(SOCATv2021.all.pCO2))
 
 %% Grid uncertainty
 % This is attributable to one value in a grid cell for a month not being
@@ -33,7 +34,39 @@ u_meas = 2*SOCATv2021.all.per_2uatm + 5*SOCATv2021.all.per_5uatm
 
 % Calculate average std of all gridded values
 u_grid_coast = mean(SOCATv2021_grid.all.pco2_grid_uncert(Coastal_idx),'omitnan')
+n_grid_coast = sum(~isnan(SOCATv2021_grid.all.pco2_grid_uncert(Coastal_idx)))
 u_grid_open  = mean(SOCATv2021_grid.all.pco2_grid_uncert(Open_idx),'omitnan')
+n_grid_open = sum(~isnan(SOCATv2021_grid.all.pco2_grid_uncert(Open_idx)))
+
+% % Calculate average number of points outside of decorrelation length scale
+% % for open-ocean (400km) observations
+% idx_open_temp = ~isnan(SOCATv2021_grid.pco2_RF(:,:,1)) & ...
+%     SOCATv2021_grid.distance_from_shore(:,:,1) > 400;
+% idx_open_temp = idx_open_temp(:);
+% lat_temp = SOCATv2021_grid.lat(:); lat_temp = lat_temp(idx_open_temp);
+% lon_temp = SOCATv2021_grid.lon(:); lon_temp = lon_temp(idx_open_temp);
+% Neff_open = nan(size(lat_temp));
+% for n = 1:length(lat_temp)
+%     dist = distance(lat_temp,lon_temp,lat_temp(n),lon_temp(n));
+%     dist = deg2km(dist);
+%     Neff_open(n) = sum(sum(dist > 400));
+% end
+% Neff_open_mean = mean(Neff_open);
+% 
+% % Calculate average number of points outside of decorrelation length scale
+% % for coastal (50km) observations
+% idx_coast_temp = ~isnan(SOCATv2021_grid.pco2_RF(:,:,1)) & ...
+%     SOCATv2021_grid.distance_from_shore(:,:,1) > 50;
+% idx_coast_temp = idx_coast_temp(:);
+% lat_temp = SOCATv2021_grid.lat(:); lat_temp = lat_temp(idx_coast_temp);
+% lon_temp = SOCATv2021_grid.lon(:); lon_temp = lon_temp(idx_coast_temp);
+% Neff_coast = nan(size(lat_temp));
+% for n = 1:length(lat_temp)
+%     dist = distance(lat_temp,lon_temp,lat_temp(n),lon_temp(n));
+%     dist = deg2km(dist);
+%     Neff_coast(n) = sum(sum(dist > 400));
+% end
+% Neff_coast_mean = mean(Neff_coast);
 
 %% Map uncertainty in pCO2
 % This is attributable to the mismatch metween values predicted by the
