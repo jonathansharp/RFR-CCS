@@ -7,7 +7,7 @@ load('Data/ERA5h_monthly.mat');
 SOCATv2021_grid.sch = CO2flux_Schmidt_W14(SOCATv2021_grid.SST,'CO2');
 SOCATv2021_grid.kw_ERA5 = ...
     0.276.*ERA5h_monthly.speed_sq.*(SOCATv2021_grid.sch./660).^-0.5; % cm/hr
-SOCATv2021_grid.kw_ERA5 = SOCATv2021_grid.kw_ERA5.*(24.*365.25./12)./100; % m/hr
+SOCATv2021_grid.kw_ERA5 = SOCATv2021_grid.kw_ERA5.*(24.*365.25./12)./100; % m/mnth
 
 % Determine K0 (Weiss, R. F., Marine Chemistry 2:203-215, 1974)
 TempK100  = (SOCATv2021_grid.SST+273.15)./100;
