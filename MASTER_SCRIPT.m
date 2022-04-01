@@ -20,34 +20,34 @@
 % clear
 
 %% For Test #1: split training/test data randomly (random 20%)
-rng_seed = randi([1 100],1);
-split = 1;          % split data randomly
-numsplits = 10;     % perform 10 splits
-grid_val = 0;       % do not predict pCO2 on grid
-importSOCATv2021;   % import and split data into training/test
-gridSOCATv2021;     % grid training/test data
-detrendSOCATv2021;  % detrend gridded observations
-loadvarsSOCATv2021; % load predictor variables
-interpolateSOCATv2021_RF_validate;
-                    % interpolate pCO2 by random forest using training data
-
-clear
+% rng_seed = randi([1 100],1);
+% split = 1;          % split data randomly
+% numsplits = 10;     % perform 10 splits
+% grid_val = 0;       % do not predict pCO2 on grid
+% importSOCATv2021;   % import and split data into training/test
+% gridSOCATv2021;     % grid training/test data
+% detrendSOCATv2021;  % detrend gridded observations
+% loadvarsSOCATv2021; % load predictor variables
+% interpolateSOCATv2021_RF_validate;
+%                     % interpolate pCO2 by random forest using training data
+% 
+% clear
 
 %% For Test #3: split by withholding years (every fifth)
-rng_seed = randi([1 100],1);
-split = 3;          % split data by withholding years
-startyear = [1995,1996,1997,1998,1999];
-                    % define start years
-grid_val = 0;       % do not predict pCO2 on grid
-importSOCATv2021;   % import and split data into training/test
-gridSOCATv2021;     % grid training/test data
-detrendSOCATv2021;  % detrend gridded observations
-loadvarsSOCATv2021; % load predictor variables
-interpolateSOCATv2021_RF_validate;
-                    % interpolate pCO2 by random forest using training data
-clear
+% rng_seed = randi([1 100],1);
+% split = 3;          % split data by withholding years
+% startyear = [1995,1996,1997,1998,1999];
+%                     % define start years
+% grid_val = 0;       % do not predict pCO2 on grid
+% importSOCATv2021;   % import and split data into training/test
+% gridSOCATv2021;     % grid training/test data
+% detrendSOCATv2021;  % detrend gridded observations
+% loadvarsSOCATv2021; % load predictor variables
+% interpolateSOCATv2021_RF_validate;
+%                     % interpolate pCO2 by random forest using training data
+% clear
 
-%% For Test #2: split by withholding moorings (one by one)
+%% For Test #2: split by withholding moorings
 rng_seed = randi([1 100],1);
 split = 2;          % split data by withholding moorings
 grid_val = 1;       % predict pCO2 on grid
@@ -62,22 +62,34 @@ interpolateSOCATv2021_RF_all;
                     % interpolate pCO2 by random forest using training data
 
 %% For all observations
-split = 0;          % do not split data
-importSOCATv2021;   % import data
-gridSOCATv2021;     % grid SOCAT data
-detrendSOCATv2021;  % detrend gridded observations
-loadvarsSOCATv2021; % load predictor variables
-grid_all = 1;       % predict pCO2 on grid
-interpolateSOCATv2021_RF_all;
-                    % interpolate pCO2 by random forest using all data
+% split = 0;          % do not split data
+% importSOCATv2021;   % import data
+% gridSOCATv2021;     % grid SOCAT data
+% detrendSOCATv2021;  % detrend gridded observations
+% loadvarsSOCATv2021; % load predictor variables
+% grid_all = 1;       % predict pCO2 on grid
+% interpolateSOCATv2021_RF_all;
+%                     % interpolate pCO2 by random forest using all data
 
 %% Import other datasets
 importLAND;              % Landschutzer et al. (2020)
 importLAR;               % Laruelle et al. (2017)
 
+%% Define colors for figures
+clrs = cmocean('haline',10);
+% figure; rgbplot(clrs); colormap(clrs); colorbar('Ticks',[]);
+clr1 = clrs(3,:);
+clr2 = clrs(7,:);
+clrs = cmocean('thermal',10);
+% figure; rgbplot(clrs); colormap(clrs); colorbar('Ticks',[]);
+clr3 = clrs(5,:);
+clr4 = clrs(7,:);
+clear clrs
+
 %% Ancillary functions for calculations
 pco2_uncertainty          % determine uncertainty in pCO2
 calculateCO2flux          % calculate CO2 flux
+load('Data/mooring_data_processed_2.mat'); % load processed mooring data
 mooring_omission
 moorings
 
@@ -101,9 +113,9 @@ FigureA3;
 FigureA4;
 FigureA5;
 FigureB1;
-FigureB3a;
-FigureB3b;
-FigureB4;
+FigureB4a;
+FigureB4b;
+FigureB5;
 
 %% Differences between ECCO2 and SOCAT
 % diff=...
