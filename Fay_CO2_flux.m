@@ -17,6 +17,8 @@ Fay.time = ncread('Data/SeaFlux_v2021.04_fgco2_all_winds_products.nc','time');
 Fay.area = ncread('SeaFlux_v2021.04_area_ocean.nc','area_ocean');
 
 %% limit to region corresponding to RFR-CCS
+if lonmin > 180; lonmin = lonmin-360; end
+if lonmax > 180; lonmax = lonmax-360; end
 lonidx = Fay.lon >= lonmin & Fay.lon <= lonmax;
 latidx = Fay.lat >= latmin & Fay.lat <= latmax;
 Fay.filler = Fay.filler(lonidx,latidx,:);
@@ -66,9 +68,9 @@ Fay.Fco2_std = std(Fay.Fco2(:,:,:,2,:),[],5);
 Fay.Fco2_CMEMS_FFNN = Fay.Fco2(:,:,:,2,1);
 Fay.Fco2_CSIR_ML6 = Fay.Fco2(:,:,:,2,2);
 Fay.Fco2_JENA_MLS = Fay.Fco2(:,:,:,2,3);
-Fay.Fco2_JMA_MLR = Fay.Fco2(:,:,:,2,3);
-Fay.Fco2_MPI_SOMFFN = Fay.Fco2(:,:,:,2,3);
-Fay.Fco2_NIES_FNN = Fay.Fco2(:,:,:,2,3);
+Fay.Fco2_JMA_MLR = Fay.Fco2(:,:,:,2,4);
+Fay.Fco2_MPI_SOMFFN = Fay.Fco2(:,:,:,2,5);
+Fay.Fco2_NIES_FNN = Fay.Fco2(:,:,:,2,6);
 
 %% determine coastal and open-ocean indices
 Fay.dist = dist2coast(Fay.latitude,Fay.longitude)
@@ -87,18 +89,31 @@ Fay.both_idx = Fay.open_idx | Fay.coast_idx;
 [Fay.Fco2_dom_mean_plus_coast,Fay.Fco2_dom_cum_plus_coast] = domain_mean(Fay.Fco2_mean+Fay.Fco2_std,Fay.area,Fay.coast_idx);
 [Fay.Fco2_dom_mean_minus_coast,Fay.Fco2_dom_cum_minus_coast] = domain_mean(Fay.Fco2_mean-Fay.Fco2_std,Fay.area,Fay.coast_idx);
 
-% [Fay.Fco2_CMEMS_FFNN_dom_mean,Fay.Fco2_CMEMS_FFNN_dom_cum] = ...
-%     domain_mean(Fay.Fco2_CMEMS_FFNN,Fay.area);
-% [Fay.Fco2_CSIR_ML6_dom_mean,Fay.Fco2_CSIR_ML6_dom_cum] = ...
-%     domain_mean(Fay.Fco2_CSIR_ML6,Fay.area);
-% [Fay.Fco2_JENA_MLS_dom_mean,Fay.Fco2_JENA_MLS_dom_cum] = ...
-%     domain_mean(Fay.Fco2_JENA_MLS,Fay.area);
-% [Fay.Fco2_JMA_MLR_dom_mean,Fay.Fco2_JMA_MLR_dom_cum] = ...
-%     domain_mean(Fay.Fco2_JMA_MLR,Fay.area);
-% [Fay.Fco2_MPI_SOMFFN_dom_mean,Fay.Fco2_MPI_SOMFFN_dom_cum] = ...
-%     domain_mean(Fay.Fco2_MPI_SOMFFN,Fay.area);
-% [Fay.Fco2_NIES_FNN_dom_mean,Fay.Fco2_NIES_FNN_dom_cum] = ...
-%     domain_mean(Fay.Fco2_NIES_FNN,Fay.area);
+[Fay.Fco2_CMEMS_FFNN_dom_mean_open,Fay.Fco2_CMEMS_FFNN_dom_cum_open] = ...
+    domain_mean(Fay.Fco2_CMEMS_FFNN,Fay.area,Fay.open_idx);
+[Fay.Fco2_CSIR_ML6_dom_mean_open,Fay.Fco2_CSIR_ML6_dom_cum_open] = ...
+    domain_mean(Fay.Fco2_CSIR_ML6,Fay.area,Fay.open_idx);
+[Fay.Fco2_JENA_MLS_dom_mean_open,Fay.Fco2_JENA_MLS_dom_cum_open] = ...
+    domain_mean(Fay.Fco2_JENA_MLS,Fay.area,Fay.open_idx);
+[Fay.Fco2_JMA_MLR_dom_mean_open,Fay.Fco2_JMA_MLR_dom_cum_open] = ...
+    domain_mean(Fay.Fco2_JMA_MLR,Fay.area,Fay.open_idx);
+[Fay.Fco2_MPI_SOMFFN_dom_mean_open,Fay.Fco2_MPI_SOMFFN_dom_cum_open] = ...
+    domain_mean(Fay.Fco2_MPI_SOMFFN,Fay.area,Fay.open_idx);
+[Fay.Fco2_NIES_FNN_dom_mean_open,Fay.Fco2_NIES_FNN_dom_cum_open] = ...
+    domain_mean(Fay.Fco2_NIES_FNN,Fay.area,Fay.open_idx);
+
+[Fay.Fco2_CMEMS_FFNN_dom_mean_coast,Fay.Fco2_CMEMS_FFNN_dom_cum_coast] = ...
+    domain_mean(Fay.Fco2_CMEMS_FFNN,Fay.area,Fay.coast_idx);
+[Fay.Fco2_CSIR_ML6_dom_mean_coast,Fay.Fco2_CSIR_ML6_dom_cum_coast] = ...
+    domain_mean(Fay.Fco2_CSIR_ML6,Fay.area,Fay.coast_idx);
+[Fay.Fco2_JENA_MLS_dom_mean_coast,Fay.Fco2_JENA_MLS_dom_cum_coast] = ...
+    domain_mean(Fay.Fco2_JENA_MLS,Fay.area,Fay.coast_idx);
+[Fay.Fco2_JMA_MLR_dom_mean_coast,Fay.Fco2_JMA_MLR_dom_cum_coast] = ...
+    domain_mean(Fay.Fco2_JMA_MLR,Fay.area,Fay.coast_idx);
+[Fay.Fco2_MPI_SOMFFN_dom_mean_coast,Fay.Fco2_MPI_SOMFFN_dom_cum_coast] = ...
+    domain_mean(Fay.Fco2_MPI_SOMFFN,Fay.area,Fay.coast_idx);
+[Fay.Fco2_NIES_FNN_dom_mean_coast,Fay.Fco2_NIES_FNN_dom_cum_coast] = ...
+    domain_mean(Fay.Fco2_NIES_FNN,Fay.area,Fay.coast_idx);
 
 %% calculate climatology
 for m = 1:12
@@ -116,6 +131,20 @@ for m = 1:12
     Fay.Fco2_dom_mean_clim_coast(m) = mean(Fay.Fco2_dom_mean_coast(m:12:end));
     Fay.Fco2_dom_mean_plus_clim_coast(m) = mean(Fay.Fco2_dom_mean_plus_coast(m:12:end));
     Fay.Fco2_dom_mean_minus_clim_coast(m) = mean(Fay.Fco2_dom_mean_minus_coast(m:12:end));
+    
+    Fay.Fco2_CMEMS_FFNN_dom_mean_clim_open(m) = mean(Fay.Fco2_CMEMS_FFNN_dom_mean_open(m:12:end));
+    Fay.Fco2_CSIR_ML6_dom_mean_clim_open(m) = mean(Fay.Fco2_CSIR_ML6_dom_mean_open(m:12:end));
+    Fay.Fco2_JENA_MLS_dom_mean_clim_open(m) = mean(Fay.Fco2_JENA_MLS_dom_mean_open(m:12:end));
+    Fay.Fco2_JMA_MLR_dom_mean_clim_open(m) = mean(Fay.Fco2_JMA_MLR_dom_mean_open(m:12:end));
+    Fay.Fco2_MPI_SOMFFN_dom_mean_clim_open(m) = mean(Fay.Fco2_MPI_SOMFFN_dom_mean_open(m:12:end));
+    Fay.Fco2_NIES_FNN_dom_mean_clim_open(m) = mean(Fay.Fco2_NIES_FNN_dom_mean_open(m:12:end));
+
+    Fay.Fco2_CMEMS_FFNN_dom_mean_clim_coast(m) = mean(Fay.Fco2_CMEMS_FFNN_dom_mean_coast(m:12:end));
+    Fay.Fco2_CSIR_ML6_dom_mean_clim_coast(m) = mean(Fay.Fco2_CSIR_ML6_dom_mean_coast(m:12:end));
+    Fay.Fco2_JENA_MLS_dom_mean_clim_coast(m) = mean(Fay.Fco2_JENA_MLS_dom_mean_coast(m:12:end));
+    Fay.Fco2_JMA_MLR_dom_mean_clim_coast(m) = mean(Fay.Fco2_JMA_MLR_dom_mean_coast(m:12:end));
+    Fay.Fco2_MPI_SOMFFN_dom_mean_clim_coast(m) = mean(Fay.Fco2_MPI_SOMFFN_dom_mean_coast(m:12:end));
+    Fay.Fco2_NIES_FNN_dom_mean_clim_coast(m) = mean(Fay.Fco2_NIES_FNN_dom_mean_coast(m:12:end));
     
     SOCATv2021_grid.Fco2_RF_dom_cum_clim(m) = mean(SOCATv2021_grid.Fco2_RF_dom_cum(m:12:end));
     SOCATv2021_grid.Fco2_RF_dom_cum_clim_open(m) = mean(SOCATv2021_grid.Fco2_RF_dom_cum_open(m:12:end));
