@@ -156,12 +156,33 @@ Open_idx = ~isnan(RF_pred) & X_test(:,1) > 400;
 err_RF = RF_pred-Y_test; % Errors
 err_RF_open = RF_pred(Open_idx)-Y_test(Open_idx); % Errors
 err_RF_coast = RF_pred(Coastal_idx)-Y_test(Coastal_idx); % Errors
-rmse_RF = sqrt(mean(err_RF.^2)); % RMSE
-fprintf('Mean of RF prediction: \n %f \n',nanmean(err_RF));
+rmse_RF = sqrt(mean(err_RF.^2,'omitnan')); % RMSE
+fprintf('Mean of RF prediction: \n %f \n',mean(err_RF,'omitnan'));
 fprintf('RMSE from RF prediction: \n %f \n',rmse_RF);
 fprintf('R^2 of SOCAT~Predicted: \n %f \n',mdl.Rsquared.Ordinary);
 fprintf('Mapping uncert. (open): \n %f \n',std(err_RF_open));
 fprintf('Mapping uncert. (coast): \n %f \n',std(err_RF_coast));
+
+% % Determine spatial correlation length scale of residuals
+% lat = SOCATv2021_grid.latitude(:);
+% lat_test = lat(Index_test); clear lat;
+% lon = SOCATv2021_grid.longitude(:);
+% lon_test = lon(Index_test); clear lon;
+% % open ocean
+% d_open = variogram([lon_test(Open_idx) lat_test(Open_idx)],...
+%     err_RF(Open_idx),'plotit',false);
+% d_open.distance_km = deg2km(d_open.distance);
+% modelfun = @(b,x) b(1) * exp(b(2)*x(:,1)/100); % exponential model
+% beta0 = [25, 1.1];
+% mdl = fitnlm(table(d_open.distance_km,d_open.val), modelfun, beta0);
+% figure; hold on
+% plot(d_open.distance_km,d_open.val)
+% plot(d_open.distance_km,...
+%     mdl.Coefficients.Estimate(1).*...
+%     exp(mdl.Coefficients.Estimate(2).*d_open.distance_km./100))
+% 
+% d_coast = variogram([lon_test(Coastal_idx) lat_test(Coastal_idx)],...
+%     err_RF(Coastal_idx),'plotit',false);
 
 
 % Plot histogram
