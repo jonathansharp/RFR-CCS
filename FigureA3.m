@@ -8,7 +8,7 @@ fontsz = 22;
 
 
 % Importing chlorophyll
-path = '/Volumes/2TB Hard Drive/SATELLITE_DATA/';
+path = 'Data/';
 load(strcat(path,'CHL.mat')); clear path
 CHL.latitude = repmat(CHL.lat',1,size(CHL.chl,2),size(CHL.chl,3));
 CHL.longitude = repmat(CHL.lon,size(CHL.chl,1),1,size(CHL.chl,3));
